@@ -2,6 +2,9 @@ package bs;
 
 import comm.Message;
 
+/**
+ * A Connection over Bluetooth
+ */
 public class BluetoothConnection extends Connection {
 
 	
@@ -11,13 +14,13 @@ public class BluetoothConnection extends Connection {
 	}
 
 	@Override
-	public void start(String name, String address) {
+	public void connect(String name, String address) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void stop() {
+	public void disconnect() {
 		// TODO Auto-generated method stub
 		
 	}

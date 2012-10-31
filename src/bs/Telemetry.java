@@ -10,18 +10,25 @@ public class Telemetry {
 	 * The value of the ultrasonic sensor when this Telemetry object was created
 	 */
 	private int ultrasonic;
+	
 	/** The value of the light sensor when this Telemetry object was created */
 	private int light;
+	
 	/** The value of the touch sensor when this Telemetry object was created */
 	private boolean touch;
+	
 	/** The value of the sound sensor when this Telemetry object was created */
 	private int sound;
+	
 	/** The speed of the left motor when this Telemetry object was created */
 	private int speedLeft;
+	
 	/** The speed of the right motor when this Telemetry object was created */
 	private int speedRight;
+	
 	/** The angle of the robot arm when this Telemetry object was created */
 	private int angleArm;
+	
 	/**
 	 * The the time in milliseconds from the initialization of the program that
 	 * this telemetry was received
