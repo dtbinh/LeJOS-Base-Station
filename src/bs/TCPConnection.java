@@ -2,6 +2,9 @@ package bs;
 
 import comm.Message;
 
+/**
+ * A connection through TCP.  It is used for testing purposes
+ */
 public class TCPConnection extends Connection {
 
 	public TCPConnection() {
