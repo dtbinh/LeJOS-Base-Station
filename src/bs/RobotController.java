@@ -1,17 +1,19 @@
 package bs;
 
 import java.util.List;
+import java.util.TimerTask;
 
 import comm.Message;
 
-public class RobotController implements MessageReceiver{
+public class RobotController implements MessageReceiver, ConnectionStateListener{
 	private List<Telemetry> telemetry;
 	private List<Message> sentMessages;
 	private List<Message> receivedMessages;
 	private Connection connection;
 	private RobotMode currentMode;
 	private RobotStateListener robotStateListener;
-
+	private TimerTask heartbeatTimer;
+	
 	public RobotController() {
 		
 	}
@@ -51,6 +53,18 @@ public class RobotController implements MessageReceiver{
 	
 	public void setRobotStateListener(RobotStateListener listener) {
 		this.robotStateListener = listener;
+	}
+
+	@Override
+	public void connectionEstablished() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void connectionLost() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
