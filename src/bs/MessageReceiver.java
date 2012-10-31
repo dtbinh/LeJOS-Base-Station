@@ -2,6 +2,7 @@ package bs;
 
 import comm.Message;
 
+/** Implementors of this interface can receive and process messages from a Connection */
 public interface MessageReceiver {
 	
 	/**
