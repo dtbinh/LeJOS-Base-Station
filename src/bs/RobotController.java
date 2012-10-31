@@ -10,12 +10,13 @@ public class RobotController implements MessageReceiver{
 	private List<Message> receivedMessages;
 	private Connection connection;
 	private RobotMode currentMode;
+	private RobotStateListener robotStateListener;
 
 	public RobotController() {
 		
 	}
 	
-	public RobotController(boolean simulation) {
+	public void Connect(String name, String address) {
 		
 	}
 	
@@ -46,6 +47,10 @@ public class RobotController implements MessageReceiver{
 	@Override
 	public void receiveMessage(Message message) {
 		
+	}
+	
+	public void setRobotStateListener(RobotStateListener listener) {
+		this.robotStateListener = listener;
 	}
 	
 }
