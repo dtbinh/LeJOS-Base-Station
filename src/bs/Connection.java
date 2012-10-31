@@ -4,6 +4,8 @@ import comm.Message;
 
 public abstract class Connection {
 	private MessageReceiver messageReceiver;
+	private String name;
+	private String address;
 	
 	public Connection() {
 		
@@ -13,7 +15,7 @@ public abstract class Connection {
 		
 	}
 	
-	public abstract void start();
+	public abstract void start(String name, String address);
 	
 	public abstract void stop();
 	

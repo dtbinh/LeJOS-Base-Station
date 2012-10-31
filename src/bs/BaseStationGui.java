@@ -2,7 +2,9 @@ package bs;
 
 public class BaseStationGui {
 
-	public BaseStationGui() {
+	RobotController robotController;
+	
+	public BaseStationGui(RobotController controller) {
 		
 	}
 	

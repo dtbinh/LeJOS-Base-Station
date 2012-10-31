@@ -10,7 +10,7 @@ public class TCPConnection extends Connection {
 	}
 
 	@Override
-	public void start() {
+	public void start(String name, String address) {
 		// TODO Auto-generated method stub
 		
 	}
