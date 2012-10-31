@@ -5,6 +5,14 @@ import comm.Message;
 public abstract class Connection {
 	private MessageReceiver messageReceiver;
 	
+	public Connection() {
+		
+	}
+	
+	public Connection(MessageReceiver receiver) {
+		
+	}
+	
 	public abstract void start();
 	
 	public abstract void stop();

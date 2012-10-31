@@ -11,6 +11,14 @@ public class RobotController implements MessageReceiver{
 	private Connection connection;
 	private RobotMode currentMode;
 
+	public RobotController() {
+		
+	}
+	
+	public RobotController(boolean simulation) {
+		
+	}
+	
 	public void sendMove(int leftSpeed, int rightSpeed) {
 		
 	}

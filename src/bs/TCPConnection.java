@@ -4,6 +4,11 @@ import comm.Message;
 
 public class TCPConnection extends Connection {
 
+	public TCPConnection() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public void start() {
 		// TODO Auto-generated method stub
