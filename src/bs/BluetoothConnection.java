@@ -11,7 +11,7 @@ public class BluetoothConnection extends Connection {
 	}
 
 	@Override
-	public void start() {
+	public void start(String name, String address) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -2,6 +2,9 @@ package bs;
 
 import comm.Message;
 
+/**
+ * A connection through TCP.  It is used for testing purposes
+ */
 public class TCPConnection extends Connection {
 
 	public TCPConnection() {
@@ -10,7 +13,7 @@ public class TCPConnection extends Connection {
 	}
 
 	@Override
-	public void start() {
+	public void start(String name, String address) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -1,10 +1,15 @@
 package bs;
 
+import java.util.List;
+
 import comm.Message;
 
 public abstract class Connection {
 	private MessageReceiver messageReceiver;
-	private ConnectionStateListener connectionStateListener;
+	
+	private String name;
+	private String address;
+	private List<ConnectionStateListener> connectionStateListener;
 	
 	public Connection() {
 		
@@ -14,7 +19,7 @@ public abstract class Connection {
 		
 	}
 	
-	public abstract void start();
+	public abstract void start(String name, String address);
 	
 	public abstract void stop();
 	
@@ -24,7 +29,7 @@ public abstract class Connection {
 		this.messageReceiver = receiver;
 	}
 	
-	public void setMessageStateListener(ConnectionStateListener listener) {
-		this.connectionStateListener = listener;
+	public void addMessageStateListener(ConnectionStateListener listener) {
+		this.connectionStateListener.add(listener);
 	}
 }
