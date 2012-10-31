@@ -1,8 +1,8 @@
 package bs;
 
 /**
- * @author Zack
- * 
+ * Contains Telemetry data from the robot such as the motor speeds and sensor
+ * values
  */
 public class Telemetry {
 
