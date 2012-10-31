@@ -1,5 +1,8 @@
 package bs;
 
-public class MessageReceiver {
+import comm.Message;
 
+public interface MessageReceiver {
+	
+	public void receiveMessage(Message message);
 }
