@@ -2,6 +2,9 @@ package comm;
 
 import java.io.ByteArrayOutputStream;
 
+/**
+ * A Test for class Message.
+ */
 public class MessageTest {
 	public static void main(String[] args) {
 		Message m = new Message(7, "test_message", 4);

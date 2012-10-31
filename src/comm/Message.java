@@ -8,6 +8,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * A message representing a serializable remote-procedure-call with a name,
+ * integer id, and a variable list of values.
+ */
 public class Message {
 	private static int computeChecksum(String body) {
 		int res = 0;
@@ -18,6 +22,10 @@ public class Message {
 	}
 
 	/**
+	 * Attempts to construct a new Message object from the given String. Note
+	 * that calling deserialize() on a string resulting from calling serialize()
+	 * on a Message must return a Message object which is equal to the original.
+	 * 
 	 * @param msg
 	 *            A string containing message input
 	 * @return A message, if one could be successfully read from the given
@@ -55,6 +63,16 @@ public class Message {
 
 	private List<String> values;
 
+	/**
+	 * Constructor
+	 * 
+	 * @param id
+	 *            The integer id of the message
+	 * @param name
+	 *            The name of the message
+	 * @param numParameters
+	 *            The total number of parameters that this message will have
+	 */
 	public Message(int id, String name, int numParameters) {
 		this.id = id;
 		this.name = name;
@@ -64,6 +82,13 @@ public class Message {
 		}
 	}
 
+	/**
+	 * Private constructor to create a Message object with known values
+	 * 
+	 * @param id
+	 * @param name
+	 * @param values
+	 */
 	private Message(int id, String name, List<String> values) {
 		this.id = id;
 		this.name = name;
@@ -94,26 +119,64 @@ public class Message {
 		return true;
 	}
 
+	/**
+	 * Returns the parameter at the specified index
+	 * 
+	 * @param index
+	 *            The index of the parameter to return
+	 * @return The value of the boolean parameter at the specified index. Note
+	 *         that an exception may be thrown if the parameter at this index is
+	 *         not a boolean value
+	 */
 	public boolean getBooleanParameter(int index) {
 		return Boolean.parseBoolean(values.get(index));
 	}
 
+	/**
+	 * Returns the parameter at the specified index
+	 * 
+	 * @param index
+	 *            The index of the parameter to return
+	 * @return The value of the float parameter at the specified index. Note
+	 *         that an exception may be thrown if the parameter at this index is
+	 *         not a float value
+	 */
 	public float getFloatParameter(int index) {
 		return Float.parseFloat(values.get(index));
 	}
 
+	/**
+	 * @return The id number of the message
+	 */
 	public int getId() {
 		return id;
 	}
 
+	/**
+	 * Returns the parameter at the specified index
+	 * 
+	 * @param index
+	 *            The index of the parameter to return
+	 * @return The value of the long parameter at the specified index. Note that
+	 *         an exception may be thrown if the parameter at this index is not
+	 *         a long value
+	 */
 	public long getLongParameter(int index) {
 		return Long.parseLong(values.get(index));
 	}
 
+	/**
+	 * @return The name of the message
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * @param index
+	 *            The index of the parameter to return
+	 * @return The value of the string parameter at the specified index
+	 */
 	public String getStringParameter(int index) {
 		return values.get(index);
 	}
@@ -128,6 +191,14 @@ public class Message {
 		return result;
 	}
 
+	/**
+	 * Writes the message to the output stream
+	 * 
+	 * @param out
+	 *            The output stream with which to write the message
+	 * @throws IOException
+	 *             If there is an error writing the message to the output stream
+	 */
 	public void serialize(OutputStream out) throws IOException {
 		StringBuilder v = new StringBuilder();
 		for (String s : values) {
@@ -143,18 +214,50 @@ public class Message {
 		}
 	}
 
+	/**
+	 * Sets the parameter value at the specified index
+	 * 
+	 * @param index
+	 *            The index of the parameter to modify
+	 * @param value
+	 *            The new value for this parameter
+	 */
 	public void setBoolParameter(int index, boolean value) {
 		values.set(index, Boolean.toString(value));
 	}
 
+	/**
+	 * Sets the parameter value at the specified index
+	 * 
+	 * @param index
+	 *            The index of the parameter to modify
+	 * @param value
+	 *            The new value for this parameter
+	 */
 	public void setFloatParameter(int index, float value) {
 		values.set(index, Float.toString(value));
 	}
 
+	/**
+	 * Sets the parameter value at the specified index
+	 * 
+	 * @param index
+	 *            The index of the parameter to modify
+	 * @param value
+	 *            The new value for this parameter
+	 */
 	public void setLongParameter(int index, long value) {
 		values.set(index, Long.toString(value));
 	}
 
+	/**
+	 * Sets the parameter value at the specified index
+	 * 
+	 * @param index
+	 *            The index of the parameter to modify
+	 * @param value
+	 *            The new value for this parameter
+	 */
 	public void setStringParameter(int index, String value) {
 		values.set(index, value);
 	}
