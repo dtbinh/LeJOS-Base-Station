@@ -4,6 +4,7 @@ import comm.Message;
 
 public abstract class Connection {
 	private MessageReceiver messageReceiver;
+	private MessageStateListener messageStateListener;
 	
 	public Connection() {
 		
@@ -21,5 +22,9 @@ public abstract class Connection {
 	
 	public void setMessageReceiver(MessageReceiver receiver) {
 		this.messageReceiver = receiver;
+	}
+	
+	public void setMessageStateListener(MessageStateListener listener) {
+		this.messageStateListener = listener;
 	}
 }
