@@ -1,4 +1,4 @@
-package obs;
+package bs;
 
 public class Telemetry {
 
