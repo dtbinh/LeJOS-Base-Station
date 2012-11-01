@@ -15,15 +15,10 @@ import java.util.Scanner;
 public class Message {
 	/** The name of the message used to set speed of the robot's motors */
 	public static final String MOVE_MOTER_NAME = "motor_speed";
-	/** The number of parameters the set motor speed message has*/
+
+	/** The number of parameters the set motor speed message has */
 	public static final int MOVE_MOTOR_NUM_PARAM = 2;
-	/** The name of the message used for heartbeats*/
-	public static final String HEARTBEAT_NAME = "heartbeat";
-	/** the number of parameters a heartbeat has*/
-	public static final int HEARTBEAT_NUM_PARAMS = 1;
-	/** the rate in milliseconds at which the heartbeat message is sent*/
-	public static final long HEARTBEAT_RATE = 250;
-	
+
 	private static int computeChecksum(String body) {
 		int res = 0;
 		for (int i = 0; i < body.length(); i++) {
@@ -117,6 +112,17 @@ public class Message {
 		this.id = id;
 		this.name = name;
 		this.values = values;
+	}
+
+	/**
+	 * Constructor
+	 * 
+	 * Wraps the given message
+	 * 
+	 * @param wrap
+	 */
+	public Message(Message wrap) {
+		this(wrap.id, wrap.name, wrap.values);
 	}
 
 	@Override

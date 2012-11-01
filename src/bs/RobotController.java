@@ -5,6 +5,10 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import messages.BSHeartbeat;
+import messages.BSMotorSpeed;
+import messages.RHeartbeat;
+
 import comm.Message;
 
 /**
@@ -12,6 +16,8 @@ import comm.Message;
  */
 public class RobotController implements MessageReceiver,
 		ConnectionStateListener {
+	private static final int HEARTBEAT_PUBLISH_PERIOD_MS = 250;
+
 	/**
 	 * A list of recent telemetry data received from the robot. They are ordered
 	 * by increasing received time
@@ -86,10 +92,9 @@ public class RobotController implements MessageReceiver,
 
 	}
 
-	private Message createMessage(String name, int numParams) {
-		Message newMessage = new Message(nextMessageId, name, numParams);
+	private void sendMessage(Message m) {
+		connection.sendMessage(m);
 		nextMessageId++;
-		return newMessage;
 	}
 
 	/**
@@ -101,11 +106,9 @@ public class RobotController implements MessageReceiver,
 	 *            the speed to set the right motor to
 	 */
 	public void sendMove(int leftSpeed, int rightSpeed) {
-		Message moveMessage = createMessage(Message.MOVE_MOTER_NAME,
-				Message.MOVE_MOTOR_NUM_PARAM);
-		moveMessage.setLongParameter(0, leftSpeed);
-		moveMessage.setLongParameter(0, rightSpeed);
-		connection.sendMessage(moveMessage);
+		Message moveMessage = new BSMotorSpeed(nextMessageId, leftSpeed,
+				rightSpeed);
+		sendMessage(moveMessage);
 	}
 
 	/**
@@ -122,11 +125,10 @@ public class RobotController implements MessageReceiver,
 	 * Sends a heartbeat message to the robot
 	 */
 	public void sendHeartbeat() {
-		Message heartbeatMessage = createMessage(Message.HEARTBEAT_NAME,
-				Message.HEARTBEAT_NUM_PARAMS);
 		Date currentTime = new Date();
-		heartbeatMessage.setLongParameter(0, currentTime.getTime());
-		connection.sendMessage(heartbeatMessage);
+		Message heartbeat = new BSHeartbeat(nextMessageId,
+				currentTime.getTime());
+		sendMessage(heartbeat);
 	}
 
 	/**
@@ -161,8 +163,8 @@ public class RobotController implements MessageReceiver,
 	@Override
 	public void receiveMessage(Message message) {
 		String name = message.getName();
-		if (name.equals(Message.HEARTBEAT_NAME)) {
-			processHeartbeatMessage(message);
+		if (name.equals(RHeartbeat.NAME)) {
+			processHeartbeatMessage(new RHeartbeat(message));
 		}
 	}
 
@@ -174,17 +176,8 @@ public class RobotController implements MessageReceiver,
 	 * @param message
 	 *            the heartbeat message that is to be processed
 	 */
-	private void processHeartbeatMessage(Message message) {
-		int ultrasonic = (int) message.getLongParameter(0);
-		int light = (int) message.getLongParameter(2);
-		boolean touch = message.getBooleanParameter(3);
-		int sound = (int) message.getLongParameter(4);
-		int speedLeft = (int) message.getLongParameter(5);
-		int speedRight = (int) message.getLongParameter(6);
-		int angleArm = (int) message.getLongParameter(7);
-		long receiveTime = message.getLongParameter(8);
-		Telemetry newTelemetry = new Telemetry(ultrasonic, light, touch, sound,
-				speedLeft, speedRight, angleArm, receiveTime);
+	private void processHeartbeatMessage(RHeartbeat message) {
+		Telemetry newTelemetry = message.getTelemetry();
 		telemetry.add(newTelemetry);
 		robotStateListener.stateChanged();
 	}
@@ -196,7 +189,7 @@ public class RobotController implements MessageReceiver,
 
 	@Override
 	public void connectionEstablished() {
-		heartbeatTimer.schedule(heartbeatTask, 0, Message.HEARTBEAT_RATE);
+		heartbeatTimer.schedule(heartbeatTask, 0, HEARTBEAT_PUBLISH_PERIOD_MS);
 	}
 
 	@Override
