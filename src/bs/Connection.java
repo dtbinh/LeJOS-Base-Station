@@ -1,5 +1,6 @@
 package bs;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import comm.Message;
@@ -9,12 +10,25 @@ import comm.Message;
  */
 public abstract class Connection {
 	private MessageReceiver messageReceiver;
+	private List<ConnectionStateListener> connectionStateListeners;
 
-	// connection parameters
-	private String name;
-	private String address;
+	protected void notifyMessageReceiver(Message m) {
+		if (messageReceiver != null) {
+			messageReceiver.receiveMessage(m);
+		}
+	}
 
-	private List<ConnectionStateListener> connectionStateListener;
+	protected void notifyConnectionEstablished() {
+		for (ConnectionStateListener listener : connectionStateListeners) {
+			listener.connectionEstablished();
+		}
+	}
+
+	protected void notifyConnectionLost() {
+		for (ConnectionStateListener listener : connectionStateListeners) {
+			listener.connectionLost();
+		}
+	}
 
 	/**
 	 * Constructor
@@ -22,7 +36,7 @@ public abstract class Connection {
 	 * Creates a new connection
 	 */
 	public Connection() {
-
+		connectionStateListeners = new LinkedList<ConnectionStateListener>();
 	}
 
 	/**
@@ -34,6 +48,8 @@ public abstract class Connection {
 	 *            The MessageReceiver to invoke upon receipt of messages
 	 */
 	public Connection(MessageReceiver receiver) {
+		this();
+		setMessageReceiver(receiver);
 	}
 
 	/**
@@ -66,8 +82,9 @@ public abstract class Connection {
 	 * 
 	 * @param m
 	 *            The message to send
+	 * @return True if able to successfully send the message, false otherwise
 	 */
-	public abstract void sendMessage(Message m);
+	public abstract boolean sendMessage(Message m);
 
 	/**
 	 * Sets the message receiver callback
@@ -86,6 +103,6 @@ public abstract class Connection {
 	 *            The callback to notify of changes in connection state
 	 */
 	public void addConnectionStateListener(ConnectionStateListener listener) {
-		this.connectionStateListener.add(listener);
+		this.connectionStateListeners.add(listener);
 	}
 }

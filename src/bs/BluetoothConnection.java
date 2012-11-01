@@ -6,8 +6,6 @@ import comm.Message;
  * A Connection over Bluetooth
  */
 public class BluetoothConnection extends Connection {
-
-	
 	public BluetoothConnection() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -16,19 +14,19 @@ public class BluetoothConnection extends Connection {
 	@Override
 	public void connect(String name, String address) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void disconnect() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
-	public void sendMessage(Message m) {
+	public boolean sendMessage(Message m) {
 		// TODO Auto-generated method stub
-		
+		return false;
 	}
 
 }
