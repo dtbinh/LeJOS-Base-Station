@@ -1,6 +1,8 @@
 package bs;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Timer;
 import java.util.TimerTask;
 
 import comm.Message;
@@ -41,15 +43,35 @@ public class RobotController implements MessageReceiver,
 	private RobotStateListener robotStateListener;
 
 	/**
-	 * This timer repeatedly sends a heartbeat message to the robot every 250 ms
+	 * This task repeatedly sends a heartbeat message to the robot every 250 ms
 	 */
-	private TimerTask heartbeatTimer;
+	private TimerTask heartbeatTask;
+
+	/**
+	 * This timer repeatedly kicks off the heartbeat task
+	 */
+	private Timer heartbeatTimer;
+
+	/**
+	 * A counter for the current message ID to send. It is incremented whenever
+	 * a new message is created
+	 */
+	private int nextMessageId;
 
 	/**
 	 * Constructor
 	 */
 	public RobotController() {
+		nextMessageId = 0;
+		heartbeatTask = new TimerTask() {
 
+			@Override
+			public void run() {
+				sendHeartbeat();
+			}
+		};
+
+		heartbeatTimer = new Timer();
 	}
 
 	/**
@@ -64,6 +86,12 @@ public class RobotController implements MessageReceiver,
 
 	}
 
+	private Message createMessage(String name, int numParams) {
+		Message newMessage = new Message(nextMessageId, name, numParams);
+		nextMessageId++;
+		return newMessage;
+	}
+
 	/**
 	 * Sends a message to the robot to set the wheel motor speed
 	 * 
@@ -73,7 +101,11 @@ public class RobotController implements MessageReceiver,
 	 *            the speed to set the right motor to
 	 */
 	public void sendMove(int leftSpeed, int rightSpeed) {
-
+		Message moveMessage = createMessage(Message.MOVE_MOTER_NAME,
+				Message.MOVE_MOTOR_NUM_PARAM);
+		moveMessage.setLongParameter(0, leftSpeed);
+		moveMessage.setLongParameter(0, rightSpeed);
+		connection.sendMessage(moveMessage);
 	}
 
 	/**
@@ -90,7 +122,11 @@ public class RobotController implements MessageReceiver,
 	 * Sends a heartbeat message to the robot
 	 */
 	public void sendHeartbeat() {
-
+		Message heartbeatMessage = createMessage(Message.HEARTBEAT_NAME,
+				Message.HEARTBEAT_NUM_PARAMS);
+		Date currentTime = new Date();
+		heartbeatMessage.setLongParameter(0, currentTime.getTime());
+		connection.sendMessage(heartbeatMessage);
 	}
 
 	/**
@@ -110,7 +146,7 @@ public class RobotController implements MessageReceiver,
 	 *         received from the robot
 	 */
 	public Telemetry getLatestTelemetry() {
-		return null;
+		return telemetry.get(telemetry.size() - 1);
 	}
 
 	/**
@@ -124,7 +160,33 @@ public class RobotController implements MessageReceiver,
 
 	@Override
 	public void receiveMessage(Message message) {
+		String name = message.getName();
+		if (name.equals(Message.HEARTBEAT_NAME)) {
+			processHeartbeatMessage(message);
+		}
+	}
 
+	/**
+	 * Process a received heartbeat message, extrating the telemetry data and
+	 * adding it to the list {@code telemetry}. It then notifies the robot state
+	 * listener that the robot's state has changed
+	 * 
+	 * @param message
+	 *            the heartbeat message that is to be processed
+	 */
+	private void processHeartbeatMessage(Message message) {
+		int ultrasonic = (int) message.getLongParameter(0);
+		int light = (int) message.getLongParameter(2);
+		boolean touch = message.getBooleanParameter(3);
+		int sound = (int) message.getLongParameter(4);
+		int speedLeft = (int) message.getLongParameter(5);
+		int speedRight = (int) message.getLongParameter(6);
+		int angleArm = (int) message.getLongParameter(7);
+		long receiveTime = message.getLongParameter(8);
+		Telemetry newTelemetry = new Telemetry(ultrasonic, light, touch, sound,
+				speedLeft, speedRight, angleArm, receiveTime);
+		telemetry.add(newTelemetry);
+		robotStateListener.stateChanged();
 	}
 
 	/** Sets the object that listens to the robot's state */
@@ -134,14 +196,12 @@ public class RobotController implements MessageReceiver,
 
 	@Override
 	public void connectionEstablished() {
-		// TODO Auto-generated method stub
-
+		heartbeatTimer.schedule(heartbeatTask, 0, Message.HEARTBEAT_RATE);
 	}
 
 	@Override
 	public void connectionLost() {
-		// TODO Auto-generated method stub
-
+		heartbeatTimer.cancel();
 	}
 
 }
