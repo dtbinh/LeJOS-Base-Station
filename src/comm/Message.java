@@ -22,19 +22,23 @@ public class Message {
 	}
 
 	/**
-	 * Attempts to construct a new Message object from the given String. Note
-	 * that calling deserialize() on a string resulting from calling serialize()
-	 * on a Message must return a Message object which is equal to the original.
+	 * Attempts to construct a new Message object from the given InputStream.
 	 * 
-	 * @param msg
-	 *            A string containing message input
+	 * This is a blocking call and will wait on input from the stream.
+	 * 
+	 * Note that calling deserialize() with a stream containing data resulting
+	 * from calling serialize() on a Message must return a Message object which
+	 * is equal to the original.
+	 * 
+	 * @param in
+	 *            An input stream from which to attempt to read a message
 	 * @return A message, if one could be successfully read from the given
 	 *         string. Null otherwise.
 	 */
-	public static Message deserialize(String msg) throws Exception {
+	public static Message deserialize(InputStream in) {
 		List<String> values = new ArrayList<String>();
 
-		Scanner msgScanner = new Scanner(msg);
+		Scanner msgScanner = new Scanner(in);
 		msgScanner.useDelimiter("\\{|\\}");
 		String inner = msgScanner.next();
 

@@ -1,6 +1,7 @@
 package comm;
 
 import java.io.ByteArrayOutputStream;
+import java.io.StringBufferInputStream;
 
 /**
  * A Test for class Message.
@@ -22,7 +23,8 @@ public class MessageTest {
 		System.out.println("Serialized message: " + serialized);
 
 		try {
-			Message m2 = Message.deserialize(serialized);
+			Message m2 = Message.deserialize(new StringBufferInputStream(
+					serialized));
 			System.out.println("Deserialized message: " + m2.toString());
 			boolean a = m2.getBooleanParameter(0);
 			float b = m2.getFloatParameter(1);
