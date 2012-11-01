@@ -13,6 +13,16 @@ import java.util.Scanner;
  * integer id, and a variable list of values.
  */
 public class Message {
+	public static final String MOVE_MOTER_NAME = "motor_speed";
+
+	public static final int MOVE_MOTOR_NUM_PARAM = 2;
+
+	public static final String HEARTBEAT_NAME = "heartbeat";
+
+	public static final int HEARTBEAT_NUM_PARAMS = 1;
+
+	public static final long HEARTBEAT_RATE = 250;
+	
 	private static int computeChecksum(String body) {
 		int res = 0;
 		for (int i = 0; i < body.length(); i++) {
