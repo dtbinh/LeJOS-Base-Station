@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
@@ -34,13 +34,22 @@ public class Message {
 	 *            An input stream from which to attempt to read a message
 	 * @return A message, if one could be successfully read from the given
 	 *         string. Null otherwise.
+	 * @throws IOException
+	 *             if the input stream is no longer valid
 	 */
-	public static Message deserialize(InputStream in) {
+	public static Message deserialize(InputStream in) throws IOException {
 		List<String> values = new ArrayList<String>();
 
 		Scanner msgScanner = new Scanner(in);
 		msgScanner.useDelimiter("\\{|\\}");
-		String inner = msgScanner.next();
+		String inner;
+		try {
+			inner = msgScanner.next();
+		} catch (NoSuchElementException e) {
+			throw new IOException(e);
+		} finally {
+			msgScanner.close();
+		}
 
 		String[] innerSplit = inner.split("\\|");
 		int checksum = Integer.parseInt(innerSplit[0]);
@@ -216,6 +225,7 @@ public class Message {
 			byte b = (byte) msg.charAt(i);
 			out.write(b);
 		}
+		out.flush();
 	}
 
 	/**
