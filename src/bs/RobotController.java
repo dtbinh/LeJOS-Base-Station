@@ -5,11 +5,11 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import messages.BSHeartbeat;
-import messages.BSMotorSpeed;
-import messages.RHeartbeat;
 
 import comm.Message;
+import comm.messages.BSHeartbeat;
+import comm.messages.BSMotorSpeed;
+import comm.messages.RHeartbeat;
 
 /**
  * Encapsulates a robot controlled over a remote interface
@@ -92,7 +92,7 @@ public class RobotController implements MessageReceiver,
 	 * @param address
 	 *            The address of the robot to connect to
 	 */
-	public void Connect(String name, String address) {
+	public void connect(String name, String address) {
 
 	}
 
