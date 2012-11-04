@@ -51,16 +51,38 @@ public abstract class StreamConnection extends Connection {
 		this.out = out;
 		readerThread.interrupt();
 		readerThread.start();
+		notifyConnectionEstablished();
 	}
 
+	@Override
+	public void disconnect() {
+		stop();
+	}
+
+	/**
+	 * Stops the thread listening for messages and closes the IO streams
+	 */
 	protected void stop() {
 		if (readerThread.isAlive()) {
 			readerThread.interrupt();
 		}
+		try {
+			in.close();
+		} catch (IOException e) {
+			Log.e(getClass().toString(),
+					"Error closing input stream: " + e.getMessage());
+		}
+		try {
+			out.close();
+		} catch (IOException e) {
+			Log.e(getClass().toString(),
+					"Error closing output stream: " + e.getMessage());
+		}
+		notifyConnectionLost();
 	}
 
 	@Override
-	public boolean sendMessage(Message m) {
+	public synchronized boolean sendMessage(Message m) {
 		if (out == null) {
 			return false;
 		}

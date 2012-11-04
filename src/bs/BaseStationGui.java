@@ -42,4 +42,10 @@ public class BaseStationGui implements ConnectionStateListener,
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public void connectionAttemptFailed() {
+		// TODO Auto-generated method stub
+		
+	}
 }

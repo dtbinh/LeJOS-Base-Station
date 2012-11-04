@@ -36,10 +36,14 @@ public class RobotController implements MessageReceiver,
 	 */
 	private List<Message> receivedMessages;
 
-	/** A connection with the robot */
+	/**
+	 * A connection with the robot
+	 */
 	private Connection connection;
 
-	/** The Current Mode (SAFE or UNSAFE) of the robot being controlled */
+	/**
+	 * The Current Mode (SAFE or UNSAFE) of the robot being controlled
+	 */
 	private RobotMode currentMode;
 
 	/**
@@ -171,7 +175,7 @@ public class RobotController implements MessageReceiver,
 	/**
 	 * Process a received heartbeat message, extrating the telemetry data and
 	 * adding it to the list {@code telemetry}. It then notifies the robot state
-	 * listener that the robot's state has changed
+	 * listener that the robot's state has changed.
 	 * 
 	 * @param message
 	 *            the heartbeat message that is to be processed
@@ -182,7 +186,12 @@ public class RobotController implements MessageReceiver,
 		robotStateListener.stateChanged();
 	}
 
-	/** Sets the object that listens to the robot's state */
+	/**
+	 * Registers a callback to listen for changes to robot state
+	 * 
+	 * @param listener
+	 *            The robot state listener to use
+	 */
 	public void setRobotStateListener(RobotStateListener listener) {
 		this.robotStateListener = listener;
 	}
@@ -195,6 +204,11 @@ public class RobotController implements MessageReceiver,
 	@Override
 	public void connectionLost() {
 		heartbeatTimer.cancel();
+	}
+
+	@Override
+	public void connectionAttemptFailed() {
+		// do nothing
 	}
 
 }

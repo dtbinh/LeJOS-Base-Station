@@ -30,6 +30,12 @@ public abstract class Connection {
 		}
 	}
 
+	protected void notifyConnectionAttemptFailed() {
+		for (ConnectionStateListener listener : connectionStateListeners) {
+			listener.connectionAttemptFailed();
+		}
+	}
+
 	/**
 	 * Constructor
 	 * 

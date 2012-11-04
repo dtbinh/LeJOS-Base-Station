@@ -14,4 +14,9 @@ public interface ConnectionStateListener {
 	 * Called when a connection is lost
 	 */
 	public void connectionLost();
+	
+	/**
+	 * Called when an attempt to connect fails
+	 */
+	public void connectionAttemptFailed();
 }
