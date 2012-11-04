@@ -116,6 +116,7 @@ public class RobotController implements MessageReceiver,
 	 *            the speed to set the right motor to
 	 */
 	public void sendMove(int leftSpeed, int rightSpeed) {
+		Log.v(this, "sendMove(" + leftSpeed + ", " + rightSpeed + ")");
 		Message moveMessage = new BSMotorSpeed(nextMessageId, leftSpeed,
 				rightSpeed);
 		sendMessage(moveMessage);

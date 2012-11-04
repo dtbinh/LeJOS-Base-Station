@@ -2,12 +2,12 @@ package bs.ui;
 
 import java.awt.CardLayout;
 
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import bs.Connection;
 import bs.ConnectionStateListener;
+import bs.Log;
 
 /**
  * A JPanel enabling the user to manage a Connection
@@ -45,14 +45,17 @@ public class ConnectionManagerPanel extends JPanel implements
 	}
 
 	private void onConnecting() {
+		Log.v(this, "onConnecting()");
 		cardLayout.show(this, CONNECTING_CARD);
 	}
 
 	private void onConnected() {
+		Log.v(this, "onConnected()");
 		cardLayout.show(this, DISCONNECT_CARD);
 	}
 
 	private void onDisconnected() {
+		Log.v(this, "onDisconnected()");
 		cardLayout.show(this, CONNECT_CARD);
 	}
 

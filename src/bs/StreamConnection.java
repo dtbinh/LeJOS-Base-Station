@@ -13,14 +13,17 @@ public abstract class StreamConnection extends Connection {
 	private InputStream in;
 	private OutputStream out;
 
+	private boolean connected = false;
+
 	/**
 	 * A thread to continuously read and process messages from the input stream
 	 */
-	private final Thread readerThread = new Thread() {
+	private class Reader extends Thread {
 		public void run() {
 			// repeat until interrupted
 			while (!Thread.interrupted()) {
 				Message msg = null;
+				Log.v(this, "Waiting for message from stream");
 				try {
 					msg = Message.deserialize(in);
 				} catch (IOException e) {
@@ -38,6 +41,8 @@ public abstract class StreamConnection extends Connection {
 		}
 	};
 
+	private Thread readerThread;
+
 	/**
 	 * Starts listening for messages on a separate thread
 	 * 
@@ -46,17 +51,25 @@ public abstract class StreamConnection extends Connection {
 	 * @param out
 	 *            The output stream to write messages
 	 */
-	protected void start(InputStream in, OutputStream out) {
-		this.in = in;
-		this.out = out;
-		readerThread.interrupt();
-		readerThread.start();
+	public void connect(InputStream in, OutputStream out) {
+		if (!connected) {
+			this.in = in;
+			this.out = out;
+			if (readerThread != null) {
+				readerThread.interrupt();
+			}
+			readerThread = new Reader();
+			readerThread.start();
+
+			connected = true;
+			notifyConnectionEstablished();
+		}
 	}
 
 	/**
 	 * Stops the thread listening for messages and closes the IO streams
 	 */
-	protected void stop() {
+	public final void disconnect() {
 		if (readerThread.isAlive()) {
 			readerThread.interrupt();
 		}
@@ -74,11 +87,21 @@ public abstract class StreamConnection extends Connection {
 		} catch (IOException e) {
 			Log.e(this, "Error closing output stream: " + e.getMessage());
 		}
+
+		connected = false;
+		notifyConnectionLost();
 	}
 
 	@Override
-	public synchronized boolean sendMessage(Message m) {
+	public final boolean isConnected() {
+		return connected;
+	}
+
+	@Override
+	public final synchronized boolean sendMessage(Message m) {
+		Log.v(this, "sendMessage(" + m + ")");
 		if (out == null) {
+			Log.e(this, "Unable to write message to null output stream");
 			return false;
 		}
 

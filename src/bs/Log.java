@@ -13,7 +13,7 @@ public class Log {
 
 	private static synchronized void writeLog(String type, Object o, String msg) {
 		String time = dateFormat.format(new Date());
-		System.out.println(String.format("%s %s: %s: %s", time, type, o
+		System.err.println(String.format("%s %s: %s: %s", time, type, o
 				.getClass().getName(), msg));
 	}
 

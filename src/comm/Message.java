@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+import bs.Log;
+
 /**
  * A message representing a serializable remote-procedure-call with a name,
  * integer id, and a variable list of values.
@@ -242,6 +244,8 @@ public class Message {
 			byte b = (byte) msg.charAt(i);
 			out.write(b);
 		}
+		out.write('\n');
+		Log.v(this, "Finished writing message");
 		out.flush();
 	}
 

@@ -11,8 +11,6 @@ import lejos.pc.comm.NXTInfo;
  * A Connection over Bluetooth
  */
 public class BluetoothConnection extends StreamConnection {
-	private boolean connected = false;
-
 	public BluetoothConnection() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -44,20 +42,6 @@ public class BluetoothConnection extends StreamConnection {
 		}
 		InputStream ins = nxtComm.getInputStream();
 		OutputStream outs = nxtComm.getOutputStream();
-		this.start(ins, outs);
-		connected = true;
-		notifyConnectionEstablished();
+		this.connect(ins, outs);
 	}
-
-	@Override
-	public void disconnect() {
-		stop();
-		notifyConnectionLost();
-	}
-
-	@Override
-	public boolean isConnected() {
-		return false;
-	}
-
 }
