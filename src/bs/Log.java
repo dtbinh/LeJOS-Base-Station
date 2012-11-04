@@ -8,9 +8,22 @@ import java.util.Date;
  * A class for logging output
  */
 public class Log {
+	/**Verbose log message type and **/
+	private static String VERBOSE = "Verbose";
+	/**Error log message type and **/
+	private static String ERROR = "Error";
+	/**Debug log message type**/
+	private static String DEBUG = "Debug";
+	
 	private static final DateFormat dateFormat = new SimpleDateFormat(
 			"yyyy/MM/dd HH:mm:ss");
 
+	/**
+	 * Writes a message to the log.  It is synchronized to prevent one message to begin writing before the previous one ends.
+	 * @param type 
+	 * @param o
+	 * @param msg
+	 */
 	private static synchronized void writeLog(String type, Object o, String msg) {
 		String time = dateFormat.format(new Date());
 		System.err.println(String.format("%s %s: %s: %s", time, type, o
@@ -26,7 +39,7 @@ public class Log {
 	 *            The message to log
 	 */
 	public static synchronized void v(Object o, String msg) {
-		writeLog("Verbose", o, msg);
+		writeLog(VERBOSE, o, msg);
 	}
 
 	/**
@@ -38,7 +51,7 @@ public class Log {
 	 *            The message to log
 	 */
 	public static synchronized void e(Object o, String msg) {
-		writeLog("Error", o, msg);
+		writeLog(ERROR, o, msg);
 	}
 
 	/**
@@ -50,6 +63,6 @@ public class Log {
 	 *            The message to log
 	 */
 	public static synchronized void d(Object o, String msg) {
-		writeLog("Debug", o, msg);
+		writeLog(DEBUG, o, msg);
 	}
 }

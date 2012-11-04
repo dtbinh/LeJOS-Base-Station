@@ -12,30 +12,52 @@ public abstract class Connection {
 	private List<MessageReceiver> messageReceivers;
 	private List<ConnectionStateListener> connectionStateListeners;
 
+	/**
+	 * Notifies all message receivers that a message has been received.
+	 * The individual receivers then process the message in their own way
+	 * @see bs.MessageReceiver.receiveMessage
+	 * @param m The message that has been received
+	 */
 	protected void notifyMessageReceiver(Message m) {
 		for (MessageReceiver messageReceiver : messageReceivers) {
 			messageReceiver.receiveMessage(m);
 		}
 	}
-
+	/**
+	 * Notifies all connection state listeners that a connection has been established.
+	 * The individual listeners then perform their specified actions to take upon establishing a connection.
+	 * @see bs.ConnectionStateListener.connectionEstablished
+	 */
 	protected void notifyConnectionEstablished() {
 		for (ConnectionStateListener listener : connectionStateListeners) {
 			listener.connectionEstablished();
 		}
 	}
-
+	/**
+	 * Notifies all connection state listeners that a connection has been lost.
+	 * The individual listeners then perform their specified actions to take upon loosing a connection.
+	 * @see bs.ConnectionStateListener.connectionLost
+	 */
 	protected void notifyConnectionLost() {
 		for (ConnectionStateListener listener : connectionStateListeners) {
 			listener.connectionLost();
 		}
 	}
-
+	/**
+	 * Notifies all connection state listeners that a connection has been initiated, but has not been established yet.
+	 * The individual listeners then perform their specified actions to take when waiting for a connection.
+	 * @see bs.ConnectionStateListener.connecting
+	 */
 	protected void notifyConnecting() {
 		for (ConnectionStateListener listener : connectionStateListeners) {
 			listener.connecting();
 		}
 	}
-
+	/**
+	 * Notifies all connection state listeners that an attempt to connect failed.
+	 * The individual listeners then perform their specified actions to take upon failing to establish a connection.
+	 * @see bs.ConnectionStateListener.connectionAttemptFailed();
+	 */
 	protected void notifyConnectionAttemptFailed() {
 		for (ConnectionStateListener listener : connectionStateListeners) {
 			listener.connectionAttemptFailed();
@@ -112,7 +134,7 @@ public abstract class Connection {
 	}
 
 	/**
-	 * Registersthe given ConnectionStateListener callback
+	 * Registers the given ConnectionStateListener callback
 	 * 
 	 * @param listener
 	 *            The callback to notify of changes in connection state
