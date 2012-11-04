@@ -12,7 +12,8 @@ public class BaseStation {
 	 */
 	public static void main(String[] args) {
 		// Connection connection = new BluetoothConnection();
-		Connection connection = new StdOutConnection();
+		// Connection connection = new StdOutConnection();
+		Connection connection = new StdIOConnection();
 
 		RobotController robotController = new RobotController(connection);
 		BaseStationGui gui = new BaseStationGui(robotController);
