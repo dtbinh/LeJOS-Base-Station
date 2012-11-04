@@ -2,19 +2,23 @@ package simulators.robot;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.StringBufferInputStream;
 import java.util.HashMap;
 import java.util.Random;
 
+import javax.annotation.processing.Messager;
+
+import bs.Connection;
+import bs.MessageReceiver;
+
 import comm.Message;
 
-public class TestRobot {
+public class TestRobot implements MessageReceiver {
 
 	static int ultrasonic, light, sound, speedLeft, speedRight, angleArm,
 			msgCount;
 	static boolean touch, safeMode;
 
-	HashMap<Integer, Message> messageStore;
+	HashMap<Integer, Message> messageStore = new HashMap<Integer, Message>();
 
 	Connection connection;
 
@@ -23,11 +27,9 @@ public class TestRobot {
 		msgCount = 0;
 	}
 
-	public void processMessage(byte[] data) {
-
-		Message message;
+	@Override
+	public void receiveMessage(Message message) {
 		try {
-			message = Message.deserialize(new ByteArrayInputStream(data));
 
 			Message ack = new Message(msgCount++, "ack", 1);
 			ack.setLongParameter(0, message.getId());
@@ -57,7 +59,7 @@ public class TestRobot {
 	}
 
 	public void sendMessage(Message message) {
-		connection.writeMessage(message);
+		connection.sendMessage(message);
 	}
 
 	public void generateHeartbeat() {

@@ -30,6 +30,7 @@ public abstract class StreamConnection extends Connection {
 					// Disconnect and terminate if there is an error in reading
 					// the next message from the input stream
 					disconnect();
+					e.printStackTrace();
 					Log.d(this, "Terminating reader thread");
 					return;
 				}

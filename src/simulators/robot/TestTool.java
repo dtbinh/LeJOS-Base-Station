@@ -3,17 +3,22 @@ package simulators.robot;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import bs.Connection;
+
 public class TestTool {
-	final Connection connection = new Connection();
-	final TestRobot robot = new TestRobot(connection);
+	final Connection connection;
+	final TestRobot robot;
 	
 	boolean encounterMode;
 	
+	public TestTool(Connection connection) {
+		this.connection = connection;
+		robot = new TestRobot(connection);
+	}
+	
 	public void init(boolean encounterMode){
+		this.connection.connect("", "");
 		this.encounterMode = encounterMode;
-
-		ReadingThread reader = new ReadingThread(connection, robot);
-		reader.start();
 
 		TimerTask heartBeat = new TimerTask() {
 
@@ -32,10 +37,10 @@ public class TestTool {
 		};
 
 		Timer heartBeatTimer = new Timer();
-		heartBeatTimer.schedule(heartBeat, 0, 15000);
+		heartBeatTimer.schedule(heartBeat, 0, 1500);
 
 		Timer encounterTimer = new Timer();
-		encounterTimer.schedule(encounter, 0, 60000);
+		encounterTimer.schedule(encounter, 0, 5000);
 
 	}
 }

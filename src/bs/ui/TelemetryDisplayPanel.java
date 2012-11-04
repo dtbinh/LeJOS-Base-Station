@@ -3,6 +3,7 @@ package bs.ui;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
+import bs.Log;
 import bs.RobotController;
 import bs.RobotStateListener;
 import bs.Telemetry;
@@ -56,6 +57,7 @@ public class TelemetryDisplayPanel extends JPanel {
 	private void updateTelemetry() {
 		Telemetry latest = controller.getLatestTelemetry();
 		if (latest != null) {
+			Log.v(this, "Updating telemetry");
 			leftMotor.setValue("" + latest.getSpeedLeft());
 			rightMotor.setValue("" + latest.getSpeedRight());
 			light.setValue("" + latest.getLight());

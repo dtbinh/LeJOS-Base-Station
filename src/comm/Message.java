@@ -74,8 +74,9 @@ public class Message {
 				values.add(v[i]);
 			}
 		}
-
-		return new Message(id, name, values);
+		Message m = new Message(id, name, values);
+		Log.v(m, "Read message: " + m);
+		return m;
 	}
 
 	private int id;
@@ -244,7 +245,6 @@ public class Message {
 			byte b = (byte) msg.charAt(i);
 			out.write(b);
 		}
-		out.write('\n');
 		Log.v(this, "Finished writing message");
 		out.flush();
 	}

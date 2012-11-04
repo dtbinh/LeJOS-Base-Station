@@ -11,9 +11,7 @@ public class BaseStation {
 	 * Main entry point into the Base Station program
 	 */
 	public static void main(String[] args) {
-		// Connection connection = new BluetoothConnection();
-		// Connection connection = new StdOutConnection();
-		Connection connection = new StdIOConnection();
+		Connection connection = new BluetoothConnection();
 
 		RobotController robotController = new RobotController(connection);
 		BaseStationGui gui = new BaseStationGui(robotController);
