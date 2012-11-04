@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-
 import comm.Message;
 import comm.messages.BSHeartbeat;
 import comm.messages.BSMotorSpeed;
@@ -17,6 +16,21 @@ import comm.messages.RHeartbeat;
 public class RobotController implements MessageReceiver,
 		ConnectionStateListener {
 	private static final int HEARTBEAT_PUBLISH_PERIOD_MS = 250;
+
+	/**
+	 * The maximum forward motor speed
+	 */
+	public static final int MOTOR_SPEED_MAX_FWD = 127;
+
+	/**
+	 * The motor speed associated with a stationary robot
+	 */
+	public static final int MOTOR_SPEED_STOP = 0;
+
+	/**
+	 * The maximum reverse motor speed
+	 */
+	public static final int MOTOR_SPEED_MAX_REV = -127;
 
 	/**
 	 * A list of recent telemetry data received from the robot. They are ordered
@@ -47,10 +61,9 @@ public class RobotController implements MessageReceiver,
 	private RobotMode currentMode;
 
 	/**
-	 * A listener that listens to the state of the robot and updates when it
-	 * changes
+	 * A list of callbacks to invoke when robot state changes
 	 */
-	private RobotStateListener robotStateListener;
+	private List<RobotStateListener> robotStateListeners;
 
 	/**
 	 * This task repeatedly sends a heartbeat message to the robot every 250 ms
@@ -70,11 +83,13 @@ public class RobotController implements MessageReceiver,
 
 	/**
 	 * Constructor
+	 * 
+	 * @param Connection
+	 *            The connection to use to communicate with the robot
 	 */
-	public RobotController() {
+	public RobotController(Connection connection) {
 		nextMessageId = 0;
 		heartbeatTask = new TimerTask() {
-
 			@Override
 			public void run() {
 				sendHeartbeat();
@@ -85,14 +100,19 @@ public class RobotController implements MessageReceiver,
 	}
 
 	/**
-	 * Tells the connection object to initiate a connection with a robot
+	 * Attempt to initiate a connection to the robot at the given name and
+	 * address
 	 * 
 	 * @param name
-	 *            The name of the robot to connect to
+	 *            The name of the device to connect to
 	 * @param address
-	 *            The address of the robot to connect to
+	 *            The address of the device to connect to
 	 */
 	public void connect(String name, String address) {
+
+	}
+
+	public void disconnect() {
 
 	}
 
@@ -142,17 +162,24 @@ public class RobotController implements MessageReceiver,
 	 *            true if turning on safe mode, false otherwise
 	 */
 	public void setSafeMode(boolean safe) {
-
+		// TODO implement this
 	}
 
 	/**
-	 * Get the latest telemetry object received from the robot
+	 * Get the latest telemetry object received from the robot.
+	 * 
+	 * Note that this returns null if no telemetry has been received yet!
 	 * 
 	 * @return a Telemetry object representing the latest telemetry data
-	 *         received from the robot
+	 *         received from the robot, or null if no telemetry has been
+	 *         received
 	 */
 	public Telemetry getLatestTelemetry() {
-		return telemetry.get(telemetry.size() - 1);
+		if (telemetry.size() > 0) {
+			return telemetry.get(telemetry.size() - 1);
+		} else {
+			return null;
+		}
 	}
 
 	/**
@@ -161,6 +188,7 @@ public class RobotController implements MessageReceiver,
 	 * @return
 	 */
 	public int getConnectionStatus() {
+		// TODO implement this
 		return -1;
 	}
 
@@ -174,8 +202,8 @@ public class RobotController implements MessageReceiver,
 
 	/**
 	 * Process a received heartbeat message, extrating the telemetry data and
-	 * adding it to the list {@code telemetry}. It then notifies the robot state
-	 * listener that the robot's state has changed.
+	 * adding it to the list {@code telemetry}. It then notifies robot state
+	 * listeners that the robot's state has changed.
 	 * 
 	 * @param message
 	 *            the heartbeat message that is to be processed
@@ -183,17 +211,10 @@ public class RobotController implements MessageReceiver,
 	private void processHeartbeatMessage(RHeartbeat message) {
 		Telemetry newTelemetry = message.getTelemetry();
 		telemetry.add(newTelemetry);
-		robotStateListener.stateChanged();
-	}
 
-	/**
-	 * Registers a callback to listen for changes to robot state
-	 * 
-	 * @param listener
-	 *            The robot state listener to use
-	 */
-	public void setRobotStateListener(RobotStateListener listener) {
-		this.robotStateListener = listener;
+		for (RobotStateListener listener : robotStateListeners) {
+			listener.stateChanged();
+		}
 	}
 
 	@Override
@@ -209,6 +230,16 @@ public class RobotController implements MessageReceiver,
 	@Override
 	public void connectionAttemptFailed() {
 		// do nothing
+	}
+
+	/**
+	 * Registers a callback to listen for changes to robot state
+	 * 
+	 * @param listener
+	 *            The robot state listener to use
+	 */
+	public void addRobotStateListener(RobotStateListener listener) {
+		robotStateListeners.add(listener);
 	}
 
 }

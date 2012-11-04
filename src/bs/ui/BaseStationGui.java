@@ -1,12 +1,27 @@
-package bs;
+package bs.ui;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+import bs.ConnectionStateListener;
+import bs.RobotController;
+import bs.RobotStateListener;
 
 /**
  * Manages the UI of the Base Station
  */
 public class BaseStationGui implements ConnectionStateListener,
 		RobotStateListener {
+	private RobotController robotController;
 
-	RobotController robotController;
+	private JFrame window;
+
+	private RobotMovementPanel movementPanel;
+
+	private TelemetryDisplayPanel telemetryPanel;
+
+	private ConnectionManagerPanel connectionPanel;
 
 	/**
 	 * Constructor
@@ -46,6 +61,6 @@ public class BaseStationGui implements ConnectionStateListener,
 	@Override
 	public void connectionAttemptFailed() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

@@ -80,8 +80,8 @@
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <class id="11" corner="BOTTOM_RIGHT" language="java" name="bs.BaseStationGui" project="CS3240 - PC Side" 
-    file="/CS3240 - PC Side/src/bs/BaseStationGui.java" binary="false">    
+  <class id="11" corner="BOTTOM_RIGHT" language="java" name="bs.ui.BaseStationGui" project="CS3240 - PC Side" 
+    file="/CS3240 - PC Side/src/bs/ui/BaseStationGui.java" binary="false">    
     <position height="-1" width="-1" x="970" y="883"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
@@ -112,24 +112,24 @@
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <class id="15" corner="BOTTOM_RIGHT" language="java" name="messages.RHeartbeat" project="CS3240 - PC Side" 
-    file="/CS3240 - PC Side/src/messages/RHeartbeat.java" binary="false">    
+  <class id="15" corner="BOTTOM_RIGHT" language="java" name="comm.messages.RHeartbeat" project="CS3240 - PC Side" 
+    file="/CS3240 - PC Side/src/comm/messages/RHeartbeat.java" binary="false">    
     <position height="-1" width="-1" x="-65" y="523"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <class id="16" corner="BOTTOM_RIGHT" language="java" name="messages.BSHeartbeat" project="CS3240 - PC Side" 
-    file="/CS3240 - PC Side/src/messages/BSHeartbeat.java" binary="false">    
+  <class id="16" corner="BOTTOM_RIGHT" language="java" name="comm.messages.BSHeartbeat" project="CS3240 - PC Side" 
+    file="/CS3240 - PC Side/src/comm/messages/BSHeartbeat.java" binary="false">    
     <position height="-1" width="-1" x="176" y="670"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="true" package="true" protected="true" private="true"/>    
     </display>  
   </class>  
-  <class id="17" corner="BOTTOM_RIGHT" language="java" name="messages.BSMotorSpeed" project="CS3240 - PC Side" 
-    file="/CS3240 - PC Side/src/messages/BSMotorSpeed.java" binary="false">    
+  <class id="17" corner="BOTTOM_RIGHT" language="java" name="comm.messages.BSMotorSpeed" project="CS3240 - PC Side" 
+    file="/CS3240 - PC Side/src/comm/messages/BSMotorSpeed.java" binary="false">    
     <position height="-1" width="-1" x="-61" y="307"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      

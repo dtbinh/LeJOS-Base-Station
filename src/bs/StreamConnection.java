@@ -16,7 +16,7 @@ public abstract class StreamConnection extends Connection {
 	/**
 	 * A thread to continuously read and process messages from the input stream
 	 */
-	private Thread readerThread = new Thread() {
+	private final Thread readerThread = new Thread() {
 		public void run() {
 			// repeat until interrupted
 			while (!Thread.interrupted()) {
@@ -67,13 +67,17 @@ public abstract class StreamConnection extends Connection {
 			readerThread.interrupt();
 		}
 		try {
-			in.close();
+			if (in != null) {
+				in.close();
+			}
 		} catch (IOException e) {
 			Log.e(getClass().toString(),
 					"Error closing input stream: " + e.getMessage());
 		}
 		try {
-			out.close();
+			if (out != null) {
+				out.close();
+			}
 		} catch (IOException e) {
 			Log.e(getClass().toString(),
 					"Error closing output stream: " + e.getMessage());

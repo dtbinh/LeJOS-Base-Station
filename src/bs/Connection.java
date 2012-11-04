@@ -9,11 +9,11 @@ import comm.Message;
  * Manages a particular type of connection to a remote device.
  */
 public abstract class Connection {
-	private MessageReceiver messageReceiver;
+	private List<MessageReceiver> messageReceivers;
 	private List<ConnectionStateListener> connectionStateListeners;
 
 	protected void notifyMessageReceiver(Message m) {
-		if (messageReceiver != null) {
+		for (MessageReceiver messageReceiver : messageReceivers) {
 			messageReceiver.receiveMessage(m);
 		}
 	}
@@ -43,6 +43,7 @@ public abstract class Connection {
 	 */
 	public Connection() {
 		connectionStateListeners = new LinkedList<ConnectionStateListener>();
+		messageReceivers = new LinkedList<MessageReceiver>();
 	}
 
 	/**
@@ -55,7 +56,7 @@ public abstract class Connection {
 	 */
 	public Connection(MessageReceiver receiver) {
 		this();
-		setMessageReceiver(receiver);
+		addMessageReceiver(receiver);
 	}
 
 	/**
@@ -93,17 +94,17 @@ public abstract class Connection {
 	public abstract boolean sendMessage(Message m);
 
 	/**
-	 * Sets the message receiver callback
+	 * Registers the given MessageReceiver callback
 	 * 
 	 * @param receiver
 	 *            The callback
 	 */
-	public void setMessageReceiver(MessageReceiver receiver) {
-		this.messageReceiver = receiver;
+	public void addMessageReceiver(MessageReceiver receiver) {
+		messageReceivers.add(receiver);
 	}
 
 	/**
-	 * Adds the given ConnectionStateListener callback
+	 * Registersthe given ConnectionStateListener callback
 	 * 
 	 * @param listener
 	 *            The callback to notify of changes in connection state

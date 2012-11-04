@@ -1,4 +1,4 @@
-package messages;
+package comm.messages;
 
 import comm.Message;
 
