@@ -117,8 +117,7 @@ public abstract class StreamConnection extends Connection {
 			m.serialize(out);
 		} catch (IOException e) {
 			// if there was an error writing to the output stream, disconnect
-			Log.e(this, "Error writing message to stream");
-			e.printStackTrace();
+			Log.e(this, "Error writing message to stream.  Disconnecting!");
 			disconnect();
 			return false;
 		}

@@ -37,19 +37,19 @@ public class RobotController implements MessageReceiver,
 	 * A list of recent telemetry data received from the robot. They are ordered
 	 * by increasing received time
 	 */
-	private List<Telemetry> telemetry;
+	private final List<Telemetry> telemetry = new LinkedList<Telemetry>();
 
 	/**
 	 * A list of recent messages that have been sent to the robot. They are
 	 * ordered by increasing message ID
 	 */
-	private List<Message> sentMessages;
+	private final List<Message> sentMessages = new LinkedList<Message>();
 
 	/**
 	 * A list of recent messages received from the robot. They are ordered by
 	 * increasing message ID
 	 */
-	private List<Message> receivedMessages;
+	private final List<Message> receivedMessages = new LinkedList<Message>();
 
 	/**
 	 * A connection with the robot
@@ -90,6 +90,8 @@ public class RobotController implements MessageReceiver,
 	 */
 	public RobotController(Connection connection) {
 		this.connection = connection;
+		connection.addConnectionStateListener(this);
+		connection.addMessageReceiver(this);
 
 		nextMessageId = 0;
 		heartbeatTask = new TimerTask() {
