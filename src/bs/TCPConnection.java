@@ -30,4 +30,10 @@ public class TCPConnection extends Connection {
 		return false;
 	}
 
+	@Override
+	public boolean isConnected() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
 }

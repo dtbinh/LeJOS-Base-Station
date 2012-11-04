@@ -1,6 +1,7 @@
 package bs;
 
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -63,7 +64,7 @@ public class RobotController implements MessageReceiver,
 	/**
 	 * A list of callbacks to invoke when robot state changes
 	 */
-	private List<RobotStateListener> robotStateListeners;
+	private final List<RobotStateListener> robotStateListeners = new LinkedList<RobotStateListener>();
 
 	/**
 	 * This task repeatedly sends a heartbeat message to the robot every 250 ms
@@ -88,6 +89,8 @@ public class RobotController implements MessageReceiver,
 	 *            The connection to use to communicate with the robot
 	 */
 	public RobotController(Connection connection) {
+		this.connection = connection;
+
 		nextMessageId = 0;
 		heartbeatTask = new TimerTask() {
 			@Override
@@ -97,23 +100,6 @@ public class RobotController implements MessageReceiver,
 		};
 
 		heartbeatTimer = new Timer();
-	}
-
-	/**
-	 * Attempt to initiate a connection to the robot at the given name and
-	 * address
-	 * 
-	 * @param name
-	 *            The name of the device to connect to
-	 * @param address
-	 *            The address of the device to connect to
-	 */
-	public void connect(String name, String address) {
-
-	}
-
-	public void disconnect() {
-
 	}
 
 	private void sendMessage(Message m) {
@@ -182,16 +168,6 @@ public class RobotController implements MessageReceiver,
 		}
 	}
 
-	/**
-	 * Get the status of the connection
-	 * 
-	 * @return
-	 */
-	public int getConnectionStatus() {
-		// TODO implement this
-		return -1;
-	}
-
 	@Override
 	public void receiveMessage(Message message) {
 		String name = message.getName();
@@ -240,6 +216,19 @@ public class RobotController implements MessageReceiver,
 	 */
 	public void addRobotStateListener(RobotStateListener listener) {
 		robotStateListeners.add(listener);
+	}
+
+	/**
+	 * @return The connection being used to communicate with the robot
+	 */
+	public Connection getConnection() {
+		return connection;
+	}
+
+	@Override
+	public void connecting() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

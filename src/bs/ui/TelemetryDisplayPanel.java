@@ -1,11 +1,15 @@
 package bs.ui;
 
+import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
 import bs.RobotController;
 import bs.RobotStateListener;
 import bs.Telemetry;
 
+/**
+ * A Panel to display a vertical list of up-to-date robot telemetry data
+ */
 public class TelemetryDisplayPanel extends JPanel {
 	private RobotController controller;
 
@@ -16,6 +20,12 @@ public class TelemetryDisplayPanel extends JPanel {
 	private SensorDisplay touch;
 	private SensorDisplay ultrasonic;
 
+	/**
+	 * Constructor
+	 * 
+	 * @param controller
+	 *            The robot controller from which to retrieve telemetry data
+	 */
 	public TelemetryDisplayPanel(RobotController controller) {
 		super();
 		this.controller = controller;
@@ -27,6 +37,7 @@ public class TelemetryDisplayPanel extends JPanel {
 		touch = new SensorDisplay("Touch");
 		ultrasonic = new SensorDisplay("Ultrasonic");
 
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		add(leftMotor);
 		add(rightMotor);
 		add(light);

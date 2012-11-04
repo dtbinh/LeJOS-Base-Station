@@ -11,6 +11,8 @@ import lejos.pc.comm.NXTInfo;
  * A Connection over Bluetooth
  */
 public class BluetoothConnection extends StreamConnection {
+	private boolean connected = false;
+
 	public BluetoothConnection() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -18,32 +20,44 @@ public class BluetoothConnection extends StreamConnection {
 
 	@Override
 	public void connect(String name, String address) {
+		// TODO make this method asynchronous so we don't block the entire GUI
+		notifyConnecting();
+		NXTComm nxtComm;
 		try {
-			NXTComm nxtComm = NXTCommFactory
-					.createNXTComm(NXTCommFactory.BLUETOOTH);
+			nxtComm = NXTCommFactory.createNXTComm(NXTCommFactory.BLUETOOTH);
 			NXTInfo nxtInfo = new NXTInfo(NXTCommFactory.BLUETOOTH, name,
 					address);
 			System.out.println(String.format(
 					"Device has name: %s, address: %s", nxtInfo.name,
 					nxtInfo.deviceAddress));
-			System.out.println("Attempting to open device...");
+			Log.v(this, "Attempting to open device...");
 			if (nxtComm.open(nxtInfo)) {
-				System.out.println("Success");
+				Log.v(this, "Bluetooth connection opened successfully");
 			}
-			InputStream ins = nxtComm.getInputStream();
-			OutputStream outs = nxtComm.getOutputStream();
-			this.start(ins, outs);
 		} catch (Exception e) {
-			Log.e(getClass().toString(),
+			Log.e(this,
 					String.format(
 							"Error connecting to Bluetooth device with name: %s, address: %s\nError: %s",
 							name, address, e.getMessage()));
+			notifyConnectionAttemptFailed();
+			return;
 		}
+		InputStream ins = nxtComm.getInputStream();
+		OutputStream outs = nxtComm.getOutputStream();
+		this.start(ins, outs);
+		connected = true;
+		notifyConnectionEstablished();
 	}
 
 	@Override
 	public void disconnect() {
 		stop();
+		notifyConnectionLost();
+	}
+
+	@Override
+	public boolean isConnected() {
+		return false;
 	}
 
 }

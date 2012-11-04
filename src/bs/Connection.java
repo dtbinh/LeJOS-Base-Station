@@ -30,6 +30,12 @@ public abstract class Connection {
 		}
 	}
 
+	protected void notifyConnecting() {
+		for (ConnectionStateListener listener : connectionStateListeners) {
+			listener.connecting();
+		}
+	}
+
 	protected void notifyConnectionAttemptFailed() {
 		for (ConnectionStateListener listener : connectionStateListeners) {
 			listener.connectionAttemptFailed();
@@ -58,6 +64,8 @@ public abstract class Connection {
 		this();
 		addMessageReceiver(receiver);
 	}
+
+	public abstract boolean isConnected();
 
 	/**
 	 * Tries to initiate a connection to a device with the given name and

@@ -27,7 +27,7 @@ public abstract class StreamConnection extends Connection {
 					// Disconnect and terminate if there is an error in reading
 					// the next message from the input stream
 					disconnect();
-					Log.d(getClass().getName(), "Terminating reader thread");
+					Log.d(this, "Terminating reader thread");
 					return;
 				}
 				// if we've successfully read a message
@@ -51,12 +51,6 @@ public abstract class StreamConnection extends Connection {
 		this.out = out;
 		readerThread.interrupt();
 		readerThread.start();
-		notifyConnectionEstablished();
-	}
-
-	@Override
-	public void disconnect() {
-		stop();
 	}
 
 	/**
@@ -71,18 +65,15 @@ public abstract class StreamConnection extends Connection {
 				in.close();
 			}
 		} catch (IOException e) {
-			Log.e(getClass().toString(),
-					"Error closing input stream: " + e.getMessage());
+			Log.e(this, "Error closing input stream: " + e.getMessage());
 		}
 		try {
 			if (out != null) {
 				out.close();
 			}
 		} catch (IOException e) {
-			Log.e(getClass().toString(),
-					"Error closing output stream: " + e.getMessage());
+			Log.e(this, "Error closing output stream: " + e.getMessage());
 		}
-		notifyConnectionLost();
 	}
 
 	@Override
@@ -95,6 +86,7 @@ public abstract class StreamConnection extends Connection {
 			m.serialize(out);
 		} catch (IOException e) {
 			// if there was an error writing to the output stream, disconnect
+			Log.e(this, "Error writing message to stream");
 			disconnect();
 			return false;
 		}
