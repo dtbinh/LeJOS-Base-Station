@@ -44,20 +44,17 @@ public class Message {
 	 *         string. Null otherwise.
 	 * @throws IOException
 	 *             if the input stream is no longer valid
+	 * @throws NoSuchElementException
+	 *             if no message can be read yet
 	 */
-	public static Message deserialize(InputStream in) throws IOException {
+	public static Message deserialize(InputStream in) throws IOException,
+			NoSuchElementException {
 		List<String> values = new ArrayList<String>();
 
 		Scanner msgScanner = new Scanner(in);
 		msgScanner.useDelimiter("\\{|\\}");
 		String inner;
-		try {
-			inner = msgScanner.next();
-		} catch (NoSuchElementException e) {
-			throw new IOException(e);
-		} finally {
-			msgScanner.close();
-		}
+		inner = msgScanner.next();
 
 		String[] innerSplit = inner.split("\\|");
 		int checksum = Integer.parseInt(innerSplit[0]);

@@ -3,6 +3,7 @@ package bs;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.NoSuchElementException;
 
 import comm.Message;
 
@@ -26,6 +27,12 @@ public abstract class StreamConnection extends Connection {
 				Log.v(this, "Waiting for message from stream");
 				try {
 					msg = Message.deserialize(in);
+				} catch (NoSuchElementException e) {
+					// sleep if no messages have been received yet
+					try {
+						Thread.sleep(100);
+					} catch (InterruptedException e2) {
+					}
 				} catch (IOException e) {
 					// Disconnect and terminate if there is an error in reading
 					// the next message from the input stream
@@ -111,6 +118,7 @@ public abstract class StreamConnection extends Connection {
 		} catch (IOException e) {
 			// if there was an error writing to the output stream, disconnect
 			Log.e(this, "Error writing message to stream");
+			e.printStackTrace();
 			disconnect();
 			return false;
 		}
