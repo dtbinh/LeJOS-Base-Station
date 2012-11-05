@@ -9,11 +9,6 @@ import java.io.InputStream;
  */
 public class StdOutConnection extends StreamConnection {
 
-	public StdOutConnection() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
 	@Override
 	public void connect(String name, String address) {
 		final Object lock = new Object();

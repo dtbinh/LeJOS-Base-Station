@@ -8,7 +8,7 @@ import java.util.NoSuchElementException;
 import comm.Message;
 
 /**
- * 
+ * A connection over generic input/output streams
  */
 public abstract class StreamConnection extends Connection {
 	private InputStream in;

@@ -24,6 +24,14 @@ public class ConnectionManagerPanel extends JPanel implements
 	private static final String CONNECTING_CARD = "connecting";
 	private static final String DISCONNECT_CARD = "disconnect";
 
+	/**
+	 * Constructor
+	 * 
+	 * Creates a new Connection Manager to control the given connection
+	 * 
+	 * @param connection
+	 *            The connection to manage
+	 */
 	public ConnectionManagerPanel(Connection connection) {
 		connPanel = new ConnectPanel(connection);
 		disconnectPanel = new DisconnectPanel(connection);

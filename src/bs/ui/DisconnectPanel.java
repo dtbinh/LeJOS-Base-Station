@@ -18,6 +18,15 @@ public class DisconnectPanel extends JPanel {
 	private JButton disconnect;
 	private Connection connection;
 
+	/**
+	 * Constructor
+	 * 
+	 * Create a new panel with controls to allow disconnecting the given
+	 * connection
+	 * 
+	 * @param connection
+	 *            The connection to control
+	 */
 	public DisconnectPanel(Connection connection) {
 		this.connection = connection;
 		disconnect = new JButton("Disconnect");

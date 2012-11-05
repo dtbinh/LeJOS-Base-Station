@@ -12,15 +12,18 @@ import bs.MessageReceiver;
 
 import comm.Message;
 
+/**
+ * A robot simulator
+ */
 public class TestRobot implements MessageReceiver {
 
 	static int ultrasonic, light, sound, speedLeft, speedRight, angleArm,
 			msgCount;
 	static boolean touch, safeMode;
 
-	HashMap<Integer, Message> messageStore = new HashMap<Integer, Message>();
+	private HashMap<Integer, Message> messageStore = new HashMap<Integer, Message>();
 
-	Connection connection;
+	private Connection connection;
 
 	public TestRobot(Connection connection) {
 		this.connection = connection;
@@ -30,7 +33,6 @@ public class TestRobot implements MessageReceiver {
 	@Override
 	public void receiveMessage(Message message) {
 		try {
-
 			Message ack = new Message(msgCount++, "ack", 1);
 			ack.setLongParameter(0, message.getId());
 			sendMessage(ack);

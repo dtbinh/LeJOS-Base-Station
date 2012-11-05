@@ -20,9 +20,16 @@ public class ConnectPanel extends JPanel {
 	private JTextField address;
 	private JButton connect;
 
+	/**
+	 * Creates a new ConnectPanel to allow connecting with the provided
+	 * connection object
+	 * 
+	 * @param connection
+	 *            The connection to control
+	 */
 	public ConnectPanel(Connection connection) {
 		super();
-		
+
 		this.connection = connection;
 
 		this.name = new JTextField("device name");

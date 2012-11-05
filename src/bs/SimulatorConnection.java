@@ -10,6 +10,15 @@ public class SimulatorConnection extends StreamConnection {
 	private InputStream in;
 	private OutputStream out;
 
+	/**
+	 * Creates a new simulator connection to use the given one-time-use
+	 * InputStream and OutputStream
+	 * 
+	 * @param in
+	 *            The input stream from which to read messages
+	 * @param out
+	 *            The output stream to write messages
+	 */
 	public SimulatorConnection(InputStream in, OutputStream out) {
 		super();
 		this.in = in;

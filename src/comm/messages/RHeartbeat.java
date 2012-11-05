@@ -12,13 +12,13 @@ import comm.Message;
 public class RHeartbeat extends Message {
 	public static final String NAME = "heartbeat";
 
-	public static final int PARAM_INDEX_ULTRASONIC = 0;
-	public static final int PARAM_INDEX_LIGHT = 1;
-	public static final int PARAM_INDEX_TOUCH = 2;
-	public static final int PARAM_INDEX_SOUND = 3;
-	public static final int PARAM_INDEX_SPEEDLEFT = 4;
-	public static final int PARAM_INDEX_SPEEDRIGHT = 5;
-	public static final int PARAM_INDEX_ANGLEARM = 6;
+	private static final int PARAM_INDEX_ULTRASONIC = 0;
+	private static final int PARAM_INDEX_LIGHT = 1;
+	private static final int PARAM_INDEX_TOUCH = 2;
+	private static final int PARAM_INDEX_SOUND = 3;
+	private static final int PARAM_INDEX_SPEEDLEFT = 4;
+	private static final int PARAM_INDEX_SPEEDRIGHT = 5;
+	private static final int PARAM_INDEX_ANGLEARM = 6;
 
 	/**
 	 * Constructor
