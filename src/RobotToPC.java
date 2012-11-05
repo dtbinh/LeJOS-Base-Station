@@ -9,8 +9,10 @@ import lejos.pc.comm.NXTCommFactory;
 import lejos.pc.comm.NXTInfo;
 
 public class RobotToPC {
-	private static final String name = "TROGDOR";
-	private static final String address = "00165313E674";
+	// private static final String name = "TROGDOR";
+	// private static final String address = "00165313E674";
+	private static final String name = "LEAD4";
+	private static final String address = "00165313E67B";
 
 	public static void main(String[] args) {
 		try {

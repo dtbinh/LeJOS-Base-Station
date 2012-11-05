@@ -5,7 +5,9 @@ import bs.Telemetry;
 import comm.Message;
 
 /**
- * A robot heartbeat message
+ * A robot heartbeat message.
+ * 
+ * This message includes telemetry data from all of the robot's sensors.
  */
 public class RHeartbeat extends Message {
 	public static final String NAME = "heartbeat";
@@ -30,6 +32,10 @@ public class RHeartbeat extends Message {
 		super(wrap);
 	}
 
+	/**
+	 * @return a new telemetry object containing all of the sensor data
+	 *         contained in this message
+	 */
 	public Telemetry getTelemetry() {
 		int ultrasonic = (int) getLongParameter(PARAM_INDEX_ULTRASONIC);
 		int light = (int) getLongParameter(PARAM_INDEX_LIGHT);

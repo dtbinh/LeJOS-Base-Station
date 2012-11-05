@@ -26,7 +26,7 @@ public class ConnectPanel extends JPanel {
 		this.connection = connection;
 
 		this.name = new JTextField("device name");
-		this.address = new JTextField("device name");
+		this.address = new JTextField("device address");
 		this.connect = new JButton("Connect");
 		this.connect.addActionListener(new ActionListener() {
 			@Override
