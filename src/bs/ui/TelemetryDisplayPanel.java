@@ -61,6 +61,7 @@ public class TelemetryDisplayPanel extends JPanel {
 			leftMotor.setValue("" + latest.getSpeedLeft());
 			rightMotor.setValue("" + latest.getSpeedRight());
 			light.setValue("" + latest.getLight());
+			sound.setValue("" + latest.getSound());
 			touch.setValue("" + latest.isTouch());
 			ultrasonic.setValue("" + latest.getUltrasonic());
 		}
