@@ -23,10 +23,10 @@ public class BluetoothConnection extends StreamConnection {
 		NXTComm nxtComm;
 		try {
 			nxtComm = NXTCommFactory.createNXTComm(NXTCommFactory.BLUETOOTH);
-			NXTInfo[] found = nxtComm.search(null);
-			for(int i = 0; i < found.length; i++) {
-				Log.d(this, "Found device: " + found[i].toString() + " - " + found[i].deviceAddress);
-			}
+			// NXTInfo[] found = nxtComm.search(null);
+			// for(int i = 0; i < found.length; i++) {
+			//    Log.d(this, "Found device: " + found[i].toString() + " - " + found[i].deviceAddress);
+			// }
 			
 			NXTInfo nxtInfo = new NXTInfo(NXTCommFactory.BLUETOOTH, name,
 					address);

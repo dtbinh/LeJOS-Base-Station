@@ -16,7 +16,7 @@ import comm.messages.RHeartbeat;
  */
 public class RobotController implements MessageReceiver,
 		ConnectionStateListener {
-	private static final int HEARTBEAT_PUBLISH_PERIOD_MS = 250;
+	private static final int HEARTBEAT_PUBLISH_PERIOD_MS = 5000;
 
 	/**
 	 * The maximum forward motor speed
