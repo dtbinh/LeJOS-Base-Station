@@ -20,7 +20,6 @@ public class RobotArmPanel extends JPanel {
 	 */
 	public RobotArmPanel(RobotController controller) {
 		this.controller = controller;
-		// move forward/left
 		add(new RobotArmSlider(controller));
 	}
 }

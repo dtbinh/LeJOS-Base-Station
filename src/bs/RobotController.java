@@ -141,7 +141,7 @@ public class RobotController implements MessageReceiver,
 	 * @param armAngle
 	 *            the angle to set the arm to
 	 */
-	public void setArmAngle(int armAngle) {
+	public void sendSetArmAngle(int armAngle) {
 		Log.v(this, "setArmAngle(" + armAngle + ")");
 		Message armMessage = new BSArmAngle(nextMessageId, armAngle);
 		sendMessage(armMessage);
