@@ -7,6 +7,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import comm.Message;
+import comm.messages.BSArmAngle;
 import comm.messages.BSHeartbeat;
 import comm.messages.BSMotorSpeed;
 import comm.messages.RHeartbeat;
@@ -32,6 +33,16 @@ public class RobotController implements MessageReceiver,
 	 * The maximum reverse motor speed
 	 */
 	public static final int MOTOR_SPEED_MAX_REV = -127;
+	
+	/**
+	 * The maximum reverse motor speed
+	 */
+	public static final int ARM_MIN_ANGLE = 0;
+	
+	/**
+	 * The maximum reverse motor speed
+	 */
+	public static final int ARM_MAX_ANGLE = 360;
 
 	/**
 	 * A list of recent telemetry data received from the robot. They are ordered
@@ -131,7 +142,9 @@ public class RobotController implements MessageReceiver,
 	 *            the angle to set the arm to
 	 */
 	public void setArmAngle(int armAngle) {
-
+		Log.v(this, "setArmAngle(" + armAngle + ")");
+		Message armMessage = new BSArmAngle(nextMessageId, armAngle);
+		sendMessage(armMessage);
 	}
 
 	/**

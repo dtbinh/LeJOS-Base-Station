@@ -23,6 +23,8 @@ public class BaseStationGui {
 	private TelemetryDisplayPanel telemetryPanel;
 
 	private ConnectionManagerPanel connectionPanel;
+	
+	private RobotArmPanel armPanel;
 
 	/**
 	 * Constructor
@@ -44,10 +46,13 @@ public class BaseStationGui {
 		telemetryPanel = new TelemetryDisplayPanel(robotController);
 		connectionPanel = new ConnectionManagerPanel(
 				robotController.getConnection());
+		armPanel = new RobotArmPanel(robotController);
 		window.setLayout(new BorderLayout());
 		window.add(connectionPanel, BorderLayout.NORTH);
 		window.add(telemetryPanel, BorderLayout.WEST);
 		window.add(movementPanel, BorderLayout.CENTER);
+		window.add(armPanel, BorderLayout.EAST);
+		
 
 		window.setSize(500, 500);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
