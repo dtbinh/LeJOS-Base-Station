@@ -6,6 +6,7 @@ import java.awt.event.MouseEvent;
 import bs.RobotController;
 
 public class RobotMoveJoystick extends Joystick {
+	private static final int MAX_MOVEMENT_SPEED = 900;
 
 	private RobotController controller;
 	
@@ -92,8 +93,8 @@ public class RobotMoveJoystick extends Joystick {
 		
 		posX = posX * -1;
 		
-		double rPlusL = (100 - Math.abs(posX)) * (posY / 100) + posY;
-		double rMinusL = (100 - Math.abs(posY)) * (posX / 100) + posX;
+		double rPlusL = (MAX_MOVEMENT_SPEED - Math.abs(posX)) * (posY / 100) + posY;
+		double rMinusL = (MAX_MOVEMENT_SPEED - Math.abs(posY)) * (posX / 100) + posX;
 		
 		double rightMotor = (rPlusL + rMinusL) / 2;
 		double leftMotor = (rPlusL - rMinusL) / 2;
