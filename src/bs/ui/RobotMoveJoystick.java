@@ -9,15 +9,26 @@ public class RobotMoveJoystick extends Joystick {
 	private static final int MAX_MOVEMENT_SPEED = 900;
 
 	private RobotController controller;
-	
+
 	private int distFromCenter;
-	
+
 	public RobotMoveJoystick(RobotController controller) {
 		super();
 		this.controller = controller;
-		
+		// HACK to periodically send update messages
+		new Thread() {
+			public void run() {
+				try {
+					while(true) {
+						Thread.sleep(250);
+						createAndSendMoveMessage();
+					}
+				} catch(Exception e) {
+				}
+			}
+		}.start();
 	}
-	
+
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		if (isPressedOnSpot()) {
@@ -38,14 +49,14 @@ public class RobotMoveJoystick extends Joystick {
 			setAngle(Math.atan2(myp, mxp));
 
 			repaint();
-			
+
 			setDistanceFromCenter(mxp, myp);
-			
-			this.createAndSendMoveMessage();
+
+			// this.createAndSendMoveMessage();
 		}
-		
+
 	}
-	
+
 	@Override
 	protected Point getSpotCenter() {
 
@@ -61,47 +72,50 @@ public class RobotMoveJoystick extends Joystick {
 		// from the center of the circle. This is necessary becasue
 		// 0,0 is not actually the center of the circle, it is the
 		// upper left corner of the component!
-		int xc = getRadius() + xcp;//getRadius
+		int xc = getRadius() + xcp;// getRadius
 		int yc = getRadius() - ycp;
 
 		// Create a new Point to return since we can't
 		// return 2 values!
 		return new Point(xc, yc);
 	}
-	
+
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		super.mouseReleased(e);
 		distFromCenter = 0;
 		repaint();
 	}
-	
+
 	private void setDistanceFromCenter(int x, int y) {
 		double distSquared = (Math.pow(x, 2) + Math.pow(y, 2));
-		distFromCenter = (int)Math.sqrt(distSquared);
-		if(distFromCenter > getRadius()) {
+		distFromCenter = (int) Math.sqrt(distSquared);
+		if (distFromCenter > getRadius()) {
 			distFromCenter = getRadius();
 		}
 	}
-	
+
 	private void createAndSendMoveMessage() {
-		double speedProportion = (double)distFromCenter / (double)getRadius();
-		double totalSpeed = RobotController.MOTOR_SPEED_MAX_FWD * speedProportion;
-		
+		double speedProportion = (double) distFromCenter / (double) getRadius();
+		double totalSpeed = RobotController.MOTOR_SPEED_MAX_FWD
+				* speedProportion;
+
 		double posX = speedProportion * Math.cos(getAngleRadians());
 		double posY = speedProportion * Math.sin(getAngleRadians());
-		
+
 		posX = posX * -1;
-		
-		double rPlusL = (MAX_MOVEMENT_SPEED - Math.abs(posX)) * (posY / 100) + posY;
-		double rMinusL = (MAX_MOVEMENT_SPEED - Math.abs(posY)) * (posX / 100) + posX;
-		
+
+		double rPlusL = (MAX_MOVEMENT_SPEED - Math.abs(posX)) * (posY / 100)
+				+ posY;
+		double rMinusL = (MAX_MOVEMENT_SPEED - Math.abs(posY)) * (posX / 100)
+				+ posX;
+
 		double rightMotor = (rPlusL + rMinusL) / 2;
 		double leftMotor = (rPlusL - rMinusL) / 2;
 		rightMotor *= totalSpeed;
 		leftMotor *= totalSpeed;
-		
-		controller.sendMove((int)leftMotor, (int)rightMotor);
-		
+
+		controller.sendMove((int) leftMotor, (int) rightMotor);
+
 	}
 }

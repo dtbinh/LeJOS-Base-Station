@@ -9,6 +9,7 @@ import javax.annotation.processing.Messager;
 
 import bs.Connection;
 import bs.MessageReceiver;
+import bs.Telemetry;
 
 import comm.Message;
 
@@ -16,7 +17,6 @@ import comm.Message;
  * A robot simulator
  */
 public class TestRobot implements MessageReceiver {
-
 	static int ultrasonic, light, sound, speedLeft, speedRight, angleArm,
 			msgCount;
 	static boolean touch, safeMode;
@@ -25,9 +25,30 @@ public class TestRobot implements MessageReceiver {
 
 	private Connection connection;
 
+	private Thread updateThread;
+
 	public TestRobot(Connection connection) {
 		this.connection = connection;
 		msgCount = 0;
+		updateThread = new Thread() {
+			public void run() {
+				while (true) {
+					float time = System.currentTimeMillis();
+					ultrasonic = (int) (Math.sin(time / 1000) * 127) + 127;
+					light = (int) (Math.sin(time / 500) * 127) + 127;
+					sound = (int) (Math.sin((time + 2000) / 500) * 127) + 127;
+					speedLeft = (int) (Math.sin((time + 500) / 1000) * 127) + 127;
+					speedRight = (int) (Math.sin((time + 1000) / 1000) * 127) + 127;
+					angleArm = (int) (Math.sin((time + 1000) / 1000) * 180) + 360;
+					try {
+						Thread.sleep(342);
+					} catch (InterruptedException e) {
+					}
+					System.out.println("updated telemetry");
+				}
+			}
+		};
+		updateThread.start();
 	}
 
 	@Override
