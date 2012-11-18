@@ -14,12 +14,12 @@ import bs.Telemetry;
 public class TelemetryDisplayPanel extends JPanel {
 	private RobotController controller;
 
-	private SensorDisplay leftMotor;
-	private SensorDisplay rightMotor;
-	private SensorDisplay light;
-	private SensorDisplay sound;
-	private SensorDisplay touch;
-	private SensorDisplay ultrasonic;
+	private SensorGraphDisplay leftMotor;
+	private SensorGraphDisplay rightMotor;
+	private SensorGraphDisplay light;
+	private SensorGraphDisplay sound;
+	private SensorGraphDisplay touch;
+	private SensorGraphDisplay ultrasonic;
 
 	/**
 	 * Constructor
@@ -31,12 +31,12 @@ public class TelemetryDisplayPanel extends JPanel {
 		super();
 		this.controller = controller;
 
-		leftMotor = new SensorDisplay("Left Motor");
-		rightMotor = new SensorDisplay("Right Motor");
-		light = new SensorDisplay("Light");
-		sound = new SensorDisplay("Sound");
-		touch = new SensorDisplay("Touch");
-		ultrasonic = new SensorDisplay("Ultrasonic");
+		leftMotor = new SensorGraphDisplay("Left Motor");
+		rightMotor = new SensorGraphDisplay("Right Motor");
+		light = new SensorGraphDisplay("Light");
+		sound = new SensorGraphDisplay("Sound");
+		touch = new SensorGraphDisplay("Touch");
+		ultrasonic = new SensorGraphDisplay("Ultrasonic");
 
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		add(leftMotor);
@@ -58,12 +58,12 @@ public class TelemetryDisplayPanel extends JPanel {
 		Telemetry latest = controller.getLatestTelemetry();
 		if (latest != null) {
 			Log.v(this, "Updating telemetry");
-			leftMotor.setValue("" + latest.getSpeedLeft());
-			rightMotor.setValue("" + latest.getSpeedRight());
-			light.setValue("" + latest.getLight());
-			sound.setValue("" + latest.getSound());
-			touch.setValue("" + latest.isTouch());
-			ultrasonic.setValue("" + latest.getUltrasonic());
+			leftMotor.setValue(latest.getSpeedLeft());
+			rightMotor.setValue(latest.getSpeedRight());
+			light.setValue(latest.getLight());
+			sound.setValue(latest.getSound());
+			touch.setValue(latest.isTouch()?0:1);
+			ultrasonic.setValue(latest.getUltrasonic());
 		}
 	}
 }
