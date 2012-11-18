@@ -33,12 +33,12 @@ public class RobotController implements MessageReceiver,
 	 * The maximum reverse motor speed
 	 */
 	public static final int MOTOR_SPEED_MAX_REV = -900;
-	
+
 	/**
 	 * The maximum reverse motor speed
 	 */
 	public static final int ARM_MIN_ANGLE = 0;
-	
+
 	/**
 	 * The maximum reverse motor speed
 	 */
@@ -129,11 +129,15 @@ public class RobotController implements MessageReceiver,
 	 *            the speed to set the right motor to
 	 */
 	public void sendMove(int leftSpeed, int rightSpeed) {
-		//If the move message is setting moters to the same speed as the latest telemetry, do not send
-		if(getLatestTelemetry().getSpeedLeft() == leftSpeed && getLatestTelemetry().getSpeedRight() == rightSpeed) {
-			return;
+		// If the move message is setting moters to the same speed as the latest
+		// telemetry, do not send
+		if (getLatestTelemetry() != null) {
+			if (getLatestTelemetry().getSpeedLeft() == leftSpeed
+					&& getLatestTelemetry().getSpeedRight() == rightSpeed) {
+				return;
+			}
 		}
-		
+
 		Log.v(this, "sendMove(" + leftSpeed + ", " + rightSpeed + ")");
 		Message moveMessage = new BSMotorSpeed(nextMessageId, leftSpeed,
 				rightSpeed);

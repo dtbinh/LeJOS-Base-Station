@@ -11,7 +11,7 @@ import bs.RobotController;
 public class NudgeButton extends JButton {
 
 	private RobotController controller;
-	private final int speed = 900;
+	private final int speed = RobotController.MOTOR_SPEED_MAX_FWD;
 	private final int stop = 0;
 
 	public NudgeButton(final RobotController controller) {
