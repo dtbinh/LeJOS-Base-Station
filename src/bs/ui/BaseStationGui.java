@@ -19,6 +19,8 @@ public class BaseStationGui {
 	private JFrame window;
 
 	private RobotMovementPanel movementPanel;
+	
+	private NudgePanel nudgePanel;
 
 	private TelemetryDisplayPanel telemetryPanel;
 
@@ -47,12 +49,13 @@ public class BaseStationGui {
 		connectionPanel = new ConnectionManagerPanel(
 				robotController.getConnection());
 		armPanel = new RobotArmPanel(robotController);
+		nudgePanel = new NudgePanel(robotController);
 		window.setLayout(new BorderLayout());
 		window.add(connectionPanel, BorderLayout.NORTH);
 		window.add(telemetryPanel, BorderLayout.WEST);
 		window.add(movementPanel, BorderLayout.CENTER);
 		window.add(armPanel, BorderLayout.EAST);
-		
+		window.add(nudgePanel, BorderLayout.NORTH);
 
 		window.setSize(500, 500);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
