@@ -2,11 +2,15 @@ package bs.ui;
 
 import java.awt.Point;
 import java.awt.event.MouseEvent;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import bs.RobotController;
 
 public class RobotMoveJoystick extends Joystick {
 	private static final int MAX_MOVEMENT_SPEED = 900;
+	private static final int MAX_UPDATE_PERIOD_MS = 100;
+
+	private final AtomicBoolean speedChanged = new AtomicBoolean(false);
 
 	private RobotController controller;
 
@@ -18,12 +22,15 @@ public class RobotMoveJoystick extends Joystick {
 		// HACK to periodically send update messages
 		new Thread() {
 			public void run() {
-				try {
-					while(true) {
-						Thread.sleep(250);
+				while (true) {
+					if (speedChanged.get()) {
+						speedChanged.set(false);
 						createAndSendMoveMessage();
+						try {
+							Thread.sleep(MAX_UPDATE_PERIOD_MS);
+						} catch (Exception e) {
+						}
 					}
-				} catch(Exception e) {
 				}
 			}
 		}.start();
@@ -53,6 +60,7 @@ public class RobotMoveJoystick extends Joystick {
 			setDistanceFromCenter(mxp, myp);
 
 			// this.createAndSendMoveMessage();
+			speedChanged.set(true);
 		}
 
 	}

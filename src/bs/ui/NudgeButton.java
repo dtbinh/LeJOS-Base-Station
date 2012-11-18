@@ -8,21 +8,27 @@ import javax.swing.JButton;
 import bs.Log;
 import bs.RobotController;
 
-public class NudgeButton extends JButton{
+public class NudgeButton extends JButton {
 
 	private RobotController controller;
-	private final int speed = 100;
+	private final int speed = 900;
 	private final int stop = 0;
-	
-	
+
 	public NudgeButton(final RobotController controller) {
-		this.addActionListener(new ActionListener(){
-			
-			public void actionPerformed(ActionEvent e){
-			
+		this.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
 				Log.v(this, "nudge");
-				controller.sendMove(speed, speed);
-				controller.sendMove(stop, stop);	
+				new Thread() {
+					public void run() {
+						controller.sendMove(speed, speed);
+						try {
+							Thread.sleep(100);
+						} catch (InterruptedException e) {
+						}
+						controller.sendMove(stop, stop);
+					}
+				}.start();
 			}
 		});
 	}
