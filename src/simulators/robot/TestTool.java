@@ -37,7 +37,7 @@ public class TestTool {
 		};
 
 		Timer heartBeatTimer = new Timer();
-		heartBeatTimer.schedule(heartBeat, 0, 10000);
+		heartBeatTimer.schedule(heartBeat, 5000, 100);
 
 		Timer encounterTimer = new Timer();
 		encounterTimer.schedule(encounter, 0, 5000);

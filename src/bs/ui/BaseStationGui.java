@@ -2,6 +2,7 @@ package bs.ui;
 
 import java.awt.BorderLayout;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -19,6 +20,8 @@ public class BaseStationGui {
 	private JFrame window;
 
 	private RobotMovementPanel movementPanel;
+	
+	private NudgePanel nudgePanel;
 
 	private TelemetryDisplayPanel telemetryPanel;
 
@@ -47,12 +50,16 @@ public class BaseStationGui {
 		connectionPanel = new ConnectionManagerPanel(
 				robotController.getConnection());
 		armPanel = new RobotArmPanel(robotController);
+		nudgePanel = new NudgePanel(robotController);
 		window.setLayout(new BorderLayout());
 		window.add(connectionPanel, BorderLayout.NORTH);
-		window.add(telemetryPanel, BorderLayout.WEST);
-		window.add(movementPanel, BorderLayout.CENTER);
-		window.add(armPanel, BorderLayout.EAST);
-		
+		window.add(telemetryPanel, BorderLayout.CENTER);
+		JPanel controlPanel = new JPanel();
+		controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.X_AXIS));
+		controlPanel.add(movementPanel);
+		controlPanel.add(armPanel);
+		controlPanel.add(nudgePanel);
+		window.add(controlPanel, BorderLayout.SOUTH);
 
 		window.setSize(500, 500);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

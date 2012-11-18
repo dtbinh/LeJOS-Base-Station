@@ -9,6 +9,7 @@ import javax.annotation.processing.Messager;
 
 import bs.Connection;
 import bs.MessageReceiver;
+import bs.Telemetry;
 
 import comm.Message;
 
@@ -16,7 +17,6 @@ import comm.Message;
  * A robot simulator
  */
 public class TestRobot implements MessageReceiver {
-
 	static int ultrasonic, light, sound, speedLeft, speedRight, angleArm,
 			msgCount;
 	static boolean touch, safeMode;
@@ -66,6 +66,13 @@ public class TestRobot implements MessageReceiver {
 
 	public void generateHeartbeat() {
 		Message heartBeat = new Message(msgCount++, "heartbeat", 7);
+		float time = System.currentTimeMillis() / 1000;
+		ultrasonic = (int) (Math.sin(time / 3) * 127) + 127;
+		light = (int) (Math.sin(time / 5) * 127) + 127;
+		sound = (int) (Math.sin((time) / 3) * 127) + 127;
+		speedLeft = (int) (Math.sin((time + 500) / 9) * 127) + 127;
+		speedRight = (int) (Math.sin((time + 1000) / 0.3) * 127) + 127;
+		angleArm = (int) (Math.sin((time + 1000) / 2) * 180) + 360;
 		heartBeat.setLongParameter(0, ultrasonic);
 		heartBeat.setLongParameter(1, light);
 		heartBeat.setBoolParameter(2, touch);
