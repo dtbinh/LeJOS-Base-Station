@@ -129,6 +129,11 @@ public class RobotController implements MessageReceiver,
 	 *            the speed to set the right motor to
 	 */
 	public void sendMove(int leftSpeed, int rightSpeed) {
+		//If the move message is setting moters to the same speed as the latest telemetry, do not send
+		if(getLatestTelemetry().getSpeedLeft() == leftSpeed && getLatestTelemetry().getSpeedRight() == rightSpeed) {
+			return;
+		}
+		
 		Log.v(this, "sendMove(" + leftSpeed + ", " + rightSpeed + ")");
 		Message moveMessage = new BSMotorSpeed(nextMessageId, leftSpeed,
 				rightSpeed);
