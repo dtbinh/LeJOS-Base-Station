@@ -1,6 +1,7 @@
 package bs.ui;
 
-import javax.swing.BoxLayout;
+import java.awt.GridLayout;
+
 import javax.swing.JPanel;
 
 import bs.Log;
@@ -38,7 +39,7 @@ public class TelemetryDisplayPanel extends JPanel {
 		touch = new SensorGraphDisplay("Touch");
 		ultrasonic = new SensorGraphDisplay("Ultrasonic");
 
-		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		setLayout(new GridLayout(3, 2));
 		add(leftMotor);
 		add(rightMotor);
 		add(light);
