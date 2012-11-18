@@ -90,6 +90,7 @@ public class RobotMoveJoystick extends Joystick {
 	public void mouseReleased(MouseEvent e) {
 		super.mouseReleased(e);
 		distFromCenter = 0;
+		speedChanged.set(true);
 		repaint();
 	}
 
