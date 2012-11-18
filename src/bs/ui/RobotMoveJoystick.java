@@ -7,7 +7,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import bs.RobotController;
 
 public class RobotMoveJoystick extends Joystick {
-	private static final int MAX_MOVEMENT_SPEED = 900;
 	private static final int MAX_UPDATE_PERIOD_MS = 100;
 
 	private final AtomicBoolean speedChanged = new AtomicBoolean(false);
@@ -38,31 +37,30 @@ public class RobotMoveJoystick extends Joystick {
 
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		if (isPressedOnSpot()) {
+		// if (isPressedOnSpot()) {
 
-			int mx = e.getX();
-			int my = e.getY();
+		int mx = e.getX();
+		int my = e.getY();
 
-			// Compute the x, y position of the mouse RELATIVE
-			// to the center of the knob.
-			int mxp = mx - getRadius();
-			int myp = getRadius() - my;
+		// Compute the x, y position of the mouse RELATIVE
+		// to the center of the knob.
+		int mxp = mx - getRadius();
+		int myp = getRadius() - my;
 
-			// Compute the new angle of the knob from the
-			// new x and y position of the mouse.
-			// Math.atan2(...) computes the angle at which
-			// x,y lies from the positive y axis with cw rotations
-			// being positive and ccw being negative.
-			setAngle(Math.atan2(myp, mxp));
+		// Compute the new angle of the knob from the
+		// new x and y position of the mouse.
+		// Math.atan2(...) computes the angle at which
+		// x,y lies from the positive y axis with cw rotations
+		// being positive and ccw being negative.
+		setAngle(Math.atan2(myp, mxp));
 
-			repaint();
+		setDistanceFromCenter(mxp, myp);
 
-			setDistanceFromCenter(mxp, myp);
+		repaint();
 
-			// this.createAndSendMoveMessage();
-			speedChanged.set(true);
-		}
-
+		// this.createAndSendMoveMessage();
+		speedChanged.set(true);
+		// }
 	}
 
 	@Override
@@ -71,7 +69,7 @@ public class RobotMoveJoystick extends Joystick {
 		// Calculate the center point of the spot RELATIVE to the
 		// center of the of the circle.
 
-		int r = Math.max((distFromCenter - getSpotRadius()), 0);
+		int r = Math.max((distFromCenter), 0);
 
 		int ycp = (int) (r * Math.sin(getAngleRadians()));
 		int xcp = (int) (r * Math.cos(getAngleRadians()));
@@ -95,31 +93,37 @@ public class RobotMoveJoystick extends Joystick {
 		repaint();
 	}
 
+	private int getMaxRadius() {
+		return getRadius() - getSpotRadius();
+	}
+
 	private void setDistanceFromCenter(int x, int y) {
-		double distSquared = (Math.pow(x, 2) + Math.pow(y, 2));
+		double distSquared = (x * x + y * y);
 		distFromCenter = (int) Math.sqrt(distSquared);
-		if (distFromCenter > getRadius()) {
-			distFromCenter = getRadius();
+		if (distFromCenter > getMaxRadius()) {
+			distFromCenter = getMaxRadius();
 		}
 	}
 
 	private void createAndSendMoveMessage() {
-		double speedProportion = (double) distFromCenter / (double) getRadius();
-		double totalSpeed = RobotController.MOTOR_SPEED_MAX_FWD
-				* speedProportion;
-
+		double speedProportion = (double) distFromCenter
+				/ (double) getMaxRadius();
 		double posX = speedProportion * Math.cos(getAngleRadians());
 		double posY = speedProportion * Math.sin(getAngleRadians());
 
 		posX = posX * -1;
 
-		double rPlusL = (MAX_MOVEMENT_SPEED - Math.abs(posX)) * (posY / 100)
-				+ posY;
-		double rMinusL = (MAX_MOVEMENT_SPEED - Math.abs(posY)) * (posX / 100)
-				+ posX;
+		double rPlusL = (1.0 - Math.abs(posX))
+				* (posY / 1.0) + posY;
+		double rMinusL = (1.0 - Math.abs(posY))
+				* (posX / 1.0) + posX;
 
 		double rightMotor = (rPlusL + rMinusL) / 2;
 		double leftMotor = (rPlusL - rMinusL) / 2;
+		
+		double totalSpeed = RobotController.MOTOR_SPEED_MAX_FWD
+				* speedProportion;
+
 		rightMotor *= totalSpeed;
 		leftMotor *= totalSpeed;
 

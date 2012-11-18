@@ -22,7 +22,7 @@ public class RobotController implements MessageReceiver,
 	/**
 	 * The maximum forward motor speed
 	 */
-	public static final int MOTOR_SPEED_MAX_FWD = 127;
+	public static final int MOTOR_SPEED_MAX_FWD = 900;
 
 	/**
 	 * The motor speed associated with a stationary robot
@@ -32,7 +32,7 @@ public class RobotController implements MessageReceiver,
 	/**
 	 * The maximum reverse motor speed
 	 */
-	public static final int MOTOR_SPEED_MAX_REV = -127;
+	public static final int MOTOR_SPEED_MAX_REV = -900;
 	
 	/**
 	 * The maximum reverse motor speed
