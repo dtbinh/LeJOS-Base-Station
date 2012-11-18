@@ -8,5 +8,7 @@
 	<classpathentry kind="lib" path="lib/bluecove-gpl-2.1.0.jar"/>
 	<classpathentry kind="lib" path="lib/pccomm.jar"/>
 	<classpathentry kind="lib" path="lib/jmathplot.jar"/>
+	<classpathentry kind="lib" path="lib/gral-core-0.9-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="lib/VectorGraphics2D-0.9-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

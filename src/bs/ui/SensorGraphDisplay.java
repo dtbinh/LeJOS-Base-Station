@@ -1,26 +1,25 @@
 package bs.ui;
 
-import java.awt.Color;
-
 import javax.swing.BoxLayout;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import org.math.plot.Plot2DPanel;
-import org.math.plot.PlotPanel;
-import org.math.plot.plots.ScatterPlot;
+import de.erichseifert.gral.data.DataTable;
+import de.erichseifert.gral.plots.XYPlot;
+import de.erichseifert.gral.ui.InteractivePanel;
 
 /**
  * A JPanel displaying information for a single sensor as a graph
  */
 public class SensorGraphDisplay extends JPanel {
-	private Plot2DPanel plotPanel;
-	private ScatterPlot plot;
 	private long dataCount = 0;
-	private int dataIndex = 0;
-	private double[][] data;
-	
+
+	private DataTable dataTable;
+	private XYPlot plot;
+	private int maxData;
+
 	public SensorGraphDisplay(String name) {
-		this(name, 256);
+		this(name, 100);
 	}
 
 	/**
@@ -31,15 +30,16 @@ public class SensorGraphDisplay extends JPanel {
 	 */
 	public SensorGraphDisplay(String name, int maxData) {
 		super();
-		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-		data = new double[maxData][2];
-		
-		plotPanel = new Plot2DPanel();
-		plotPanel.setAutoBounds();
-		plot = new ScatterPlot(name, Color.blue, data);
-		plotPanel.addPlot(plot);
-		plot.setVisible(true);
-		add(plotPanel);
+		this.maxData = maxData;
+
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		add(new JLabel(name));
+
+		dataTable = new DataTable(Long.class, Double.class);
+		dataTable.add(0L, 0.0);
+		plot = new XYPlot(dataTable);
+
+		add(new InteractivePanel(plot));
 	}
 
 	/**
@@ -49,14 +49,13 @@ public class SensorGraphDisplay extends JPanel {
 	 *            The value of the sensor encoded as a double
 	 */
 	public void setValue(double value) {
-		if(dataIndex >= data.length) {
-			dataIndex = 0;
+		dataCount++;
+		dataTable.add(dataCount, value);
+		int toRemove = (int) (dataCount - maxData);
+		if (toRemove > 0) {
+			dataTable.remove(toRemove);
 		}
-		data[dataIndex][0] = dataCount++;
-		data[dataIndex][1] = value;
-		plot.setData(data);
-		dataIndex++;
-		
-		plotPanel.repaint();
+		plot.dataUpdated(dataTable);
+		repaint();
 	}
 }
