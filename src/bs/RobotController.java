@@ -10,6 +10,7 @@ import comm.Message;
 import comm.messages.BSArmAngle;
 import comm.messages.BSHeartbeat;
 import comm.messages.BSMotorSpeed;
+import comm.messages.BSSafety;
 import comm.messages.RHeartbeat;
 
 /**
@@ -173,7 +174,9 @@ public class RobotController implements MessageReceiver,
 	 *            true if turning on safe mode, false otherwise
 	 */
 	public void setSafeMode(boolean safe) {
-		// TODO implement this
+		Log.v(this, "setSafeMode(" + safe + ")");
+		Message safeMessage = new BSSafety(nextMessageId, safe);
+		sendMessage(safeMessage);
 	}
 
 	/**

@@ -28,6 +28,8 @@ public class BaseStationGui {
 	private ConnectionManagerPanel connectionPanel;
 	
 	private RobotArmPanel armPanel;
+	
+	private RobotModePanel modePanel;
 
 	/**
 	 * Constructor
@@ -51,6 +53,7 @@ public class BaseStationGui {
 				robotController.getConnection());
 		armPanel = new RobotArmPanel(robotController);
 		nudgePanel = new NudgePanel(robotController);
+		modePanel = new RobotModePanel(robotController);
 		window.setLayout(new BorderLayout());
 		window.add(connectionPanel, BorderLayout.NORTH);
 		window.add(telemetryPanel, BorderLayout.CENTER);
@@ -59,6 +62,7 @@ public class BaseStationGui {
 		controlPanel.add(movementPanel);
 		controlPanel.add(armPanel);
 		controlPanel.add(nudgePanel);
+		controlPanel.add(modePanel);
 		window.add(controlPanel, BorderLayout.SOUTH);
 
 		window.setSize(500, 500);
