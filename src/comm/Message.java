@@ -72,7 +72,7 @@ public class Message {
 			}
 		}
 		Message m = new Message(id, name, values);
-		Log.v(m, "Read message: " + m);
+		Log.verbose(m, "Read message: " + m);
 		return m;
 	}
 
@@ -242,7 +242,7 @@ public class Message {
 			byte b = (byte) msg.charAt(i);
 			out.write(b);
 		}
-		Log.v(this, "Finished writing message");
+		Log.verbose(this, "Finished writing message");
 		out.flush();
 	}
 

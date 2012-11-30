@@ -13,32 +13,26 @@ import lejos.pc.comm.NXTInfo;
 public class BluetoothConnection extends StreamConnection {
 	public BluetoothConnection() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void connect(String name, String address) {
-		// TODO make this method asynchronous so we don't block the entire GUI
 		notifyConnecting();
 		NXTComm nxtComm;
 		try {
 			nxtComm = NXTCommFactory.createNXTComm(NXTCommFactory.BLUETOOTH);
-			// NXTInfo[] found = nxtComm.search(null);
-			// for(int i = 0; i < found.length; i++) {
-			//    Log.d(this, "Found device: " + found[i].toString() + " - " + found[i].deviceAddress);
-			// }
 			
 			NXTInfo nxtInfo = new NXTInfo(NXTCommFactory.BLUETOOTH, name,
 					address);
 			System.out.println(String.format(
 					"Device has name: %s, address: %s", nxtInfo.name,
 					nxtInfo.deviceAddress));
-			Log.v(this, "Attempting to open device...");
+			Log.verbose(this, "Attempting to open device...");
 			if (nxtComm.open(nxtInfo)) {
-				Log.v(this, "Bluetooth connection opened successfully");
+				Log.verbose(this, "Bluetooth connection opened successfully");
 			}
 		} catch (Exception e) {
-			Log.e(this,
+			Log.error(this,
 					String.format(
 							"Error connecting to Bluetooth device with name: %s, address: %s\nError: %s",
 							name, address, e.getMessage()));
@@ -49,4 +43,16 @@ public class BluetoothConnection extends StreamConnection {
 		OutputStream outs = nxtComm.getOutputStream();
 		this.connect(ins, outs);
 	}
+	
+	public void searchConnections(NXTComm nxtComm) {
+		try {
+		NXTInfo[] found = nxtComm.search(null, 0);
+		 for(int i = 0; i < found.length; i++) {
+		    Log.debug(this, "Found device: " + found[i].toString() + " - " + found[i].deviceAddress);
+		 }
+		} catch (Exception e) {
+			Log.error(this, "Error searching for devices: " + e.getMessage());
+		}
+	}
+	
 }

@@ -38,7 +38,7 @@ public class Log {
 	 * @param msg
 	 *            The message to log
 	 */
-	public static synchronized void v(Object o, String msg) {
+	public static synchronized void verbose(Object o, String msg) {
 		writeLog(VERBOSE, o, msg);
 	}
 
@@ -50,7 +50,7 @@ public class Log {
 	 * @param msg
 	 *            The message to log
 	 */
-	public static synchronized void e(Object o, String msg) {
+	public static synchronized void error(Object o, String msg) {
 		writeLog(ERROR, o, msg);
 	}
 
@@ -62,7 +62,7 @@ public class Log {
 	 * @param msg
 	 *            The message to log
 	 */
-	public static synchronized void d(Object o, String msg) {
+	public static synchronized void debug(Object o, String msg) {
 		writeLog(DEBUG, o, msg);
 	}
 }

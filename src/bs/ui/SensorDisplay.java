@@ -8,7 +8,9 @@ import javax.swing.JPanel;
  * A JPanel displaying information for a single sensor
  */
 public class SensorDisplay extends JPanel {
+	/** The sensor this display is showing data for */
 	private JLabel label;
+	/** The value of the Sensor that this display is showing data for */
 	private JLabel value;
 
 	/**

@@ -53,17 +53,17 @@ public class ConnectionManagerPanel extends JPanel implements
 	}
 
 	private void onConnecting() {
-		Log.v(this, "onConnecting()");
+		Log.verbose(this, "onConnecting()");
 		cardLayout.show(this, CONNECTING_CARD);
 	}
 
 	private void onConnected() {
-		Log.v(this, "onConnected()");
+		Log.verbose(this, "onConnected()");
 		cardLayout.show(this, DISCONNECT_CARD);
 	}
 
 	private void onDisconnected() {
-		Log.v(this, "onDisconnected()");
+		Log.verbose(this, "onDisconnected()");
 		cardLayout.show(this, CONNECT_CARD);
 	}
 

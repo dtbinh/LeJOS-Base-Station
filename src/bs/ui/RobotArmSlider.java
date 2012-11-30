@@ -20,7 +20,7 @@ public class RobotArmSlider extends Joystick {
 	/**
 	 * Constructor
 	 * 
-	 * Creates a RobotMovementButton which will stop the robot
+	 * Creates a RobotArmSlider which will stop the robot
 	 * 
 	 * @param controller
 	 *            The RobotController representing the robot to move

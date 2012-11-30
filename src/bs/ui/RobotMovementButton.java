@@ -44,7 +44,7 @@ public class RobotMovementButton extends JButton {
 		this.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Log.v(this, "Button pushed");
+				Log.verbose(this, "Button pushed");
 				controller.sendMove(speedLeft, speedRight);
 			}
 		});

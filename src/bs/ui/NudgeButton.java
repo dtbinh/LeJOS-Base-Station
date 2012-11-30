@@ -18,7 +18,7 @@ public class NudgeButton extends JButton {
 		this.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				Log.v(this, "nudge");
+				Log.verbose(this, "nudge");
 				new Thread() {
 					public void run() {
 						controller.sendMove(speed, speed);

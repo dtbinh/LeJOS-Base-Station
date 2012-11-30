@@ -17,13 +17,18 @@ import java.awt.event.*;
 public class Joystick extends JComponent implements MouseListener,
 		MouseMotionListener {
 
+	/** The radius of the entire joystick */
 	private static final int radius = 50;
+	/** The radius of the spot that represents the joystick position */
 	private static final int spotRadius = 10;
 
+	/** The angle of the joystick in Radians */
 	private double theta;
+	/** The color of the joystick */
 	private Color knobColor;
+	/** The color of the spot that represents the joystick position */
 	private Color spotColor;
-
+	/** Represents if the mouse has been clicked on the spot or not */
 	private boolean pressedOnSpot;
 
 	/**
@@ -38,8 +43,8 @@ public class Joystick extends JComponent implements MouseListener,
 	 * Constructor that initializes the position of the knob to the specified
 	 * angle in radians.
 	 * 
-	 * @param initAngle
-	 *            the initial angle of the knob.
+	 * @param initTheta
+	 *            the initial angle of the knob in Radians.
 	 */
 	public Joystick(double initTheta) {
 		this(initTheta, Color.gray, Color.black);
@@ -49,9 +54,9 @@ public class Joystick extends JComponent implements MouseListener,
 	 * Constructor that initializes the position of the knob to the specified
 	 * position and also allows the colors of the knob and spot to be specified.
 	 * 
-	 * @param initAngle
-	 *            the initial angle of the knob.
-	 * @param initColor
+	 * @param initTheta
+	 *            the initial angle of the knob in Radians.
+	 * @param initKnobColor
 	 *            the color of the knob.
 	 * @param initSpotColor
 	 *            the color of the spot.
@@ -147,7 +152,6 @@ public class Joystick extends JComponent implements MouseListener,
 
 		// Calculate the center point of the spot RELATIVE to the
 		// center of the of the circle.
-
 		int r = radius - spotRadius;
 
 		int xcp = (int) (r * Math.sin(theta));
@@ -182,7 +186,7 @@ public class Joystick extends JComponent implements MouseListener,
 	// Methods from the MouseListener interface.
 
 	/**
-	 * Empy method because nothing happens on a click.
+	 * Empty method because nothing happens on a click.
 	 * 
 	 * @param e
 	 *            reference to a MouseEvent object describing the mouse click.

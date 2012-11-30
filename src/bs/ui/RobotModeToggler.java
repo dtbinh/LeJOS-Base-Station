@@ -11,7 +11,7 @@ import bs.RobotController;
 
 public class RobotModeToggler extends JCheckBox {
 
-	RobotController controller;
+	private RobotController controller;
 	
 	public RobotModeToggler(final RobotController controller) {
 		this.controller  = controller;
@@ -19,11 +19,11 @@ public class RobotModeToggler extends JCheckBox {
 		this.addActionListener(new ActionListener() {
 
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent event) {
 				if(isSelected()) {
-					controller.setSafeMode(true);
+					controller.sendSetSafeMode(true);
 				} else {
-					controller.setSafeMode(false);
+					controller.sendSetSafeMode(false);
 				}
 				
 			}

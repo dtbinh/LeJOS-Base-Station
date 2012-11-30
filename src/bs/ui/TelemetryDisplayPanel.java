@@ -58,7 +58,7 @@ public class TelemetryDisplayPanel extends JPanel {
 	private void updateTelemetry() {
 		Telemetry latest = controller.getLatestTelemetry();
 		if (latest != null) {
-			Log.v(this, "Updating telemetry");
+			Log.verbose(this, "Updating telemetry");
 			leftMotor.setValue(latest.getSpeedLeft());
 			rightMotor.setValue(latest.getSpeedRight());
 			light.setValue(latest.getLight());

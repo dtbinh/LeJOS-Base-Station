@@ -16,7 +16,7 @@ public class RobotArmPanel extends JPanel {
 	/**
 	 * Constructor
 	 * 
-	 * Creates a new RobotMovementPanel
+	 * Creates a new RobotArmPanel
 	 */
 	public RobotArmPanel(RobotController controller) {
 		this.controller = controller;

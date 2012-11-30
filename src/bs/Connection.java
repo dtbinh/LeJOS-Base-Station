@@ -13,6 +13,16 @@ public abstract class Connection {
 	private List<ConnectionStateListener> connectionStateListeners;
 
 	/**
+	 * Constructor
+	 * 
+	 * Creates a new connection
+	 */
+	public Connection() {
+		connectionStateListeners = new LinkedList<ConnectionStateListener>();
+		messageReceivers = new LinkedList<MessageReceiver>();
+	}
+	
+	/**
 	 * Notifies all message receivers that a message has been received.
 	 * The individual receivers then process the message in their own way
 	 * @see bs.MessageReceiver.receiveMessage
@@ -62,16 +72,6 @@ public abstract class Connection {
 		for (ConnectionStateListener listener : connectionStateListeners) {
 			listener.connectionAttemptFailed();
 		}
-	}
-
-	/**
-	 * Constructor
-	 * 
-	 * Creates a new connection
-	 */
-	public Connection() {
-		connectionStateListeners = new LinkedList<ConnectionStateListener>();
-		messageReceivers = new LinkedList<MessageReceiver>();
 	}
 
 	/**

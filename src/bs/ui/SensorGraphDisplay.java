@@ -45,15 +45,15 @@ public class SensorGraphDisplay extends JPanel {
 	/**
 	 * Sets the value of the sensor to display
 	 * 
-	 * @param value
+	 * @param newTelemetryValue
 	 *            The value of the sensor encoded as a double
 	 */
-	public void setValue(double value) {
+	public void setValue(double newTelemetryValue) {
 		dataCount++;
-		dataTable.add(dataCount, value);
-		int toRemove = (int) (dataCount - maxData);
-		if (toRemove > 0) {
-			dataTable.remove(toRemove);
+		dataTable.add(dataCount, newTelemetryValue);
+		int indexToRemove = (int) (dataCount - maxData);
+		if (indexToRemove > 0) {
+			dataTable.remove(indexToRemove);
 		}
 		plot.dataUpdated(dataTable);
 		repaint();

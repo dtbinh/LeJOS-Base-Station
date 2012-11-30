@@ -39,22 +39,22 @@ public class RobotMoveJoystick extends Joystick {
 	public void mouseDragged(MouseEvent e) {
 		// if (isPressedOnSpot()) {
 
-		int mx = e.getX();
-		int my = e.getY();
+		int xCoordinate = e.getX();
+		int yCoordinate = e.getY();
 
 		// Compute the x, y position of the mouse RELATIVE
 		// to the center of the knob.
-		int mxp = mx - getRadius();
-		int myp = getRadius() - my;
+		int xPosition = xCoordinate - getRadius();
+		int yPosition = getRadius() - yCoordinate;
 
 		// Compute the new angle of the knob from the
 		// new x and y position of the mouse.
 		// Math.atan2(...) computes the angle at which
 		// x,y lies from the positive y axis with cw rotations
 		// being positive and ccw being negative.
-		setAngle(Math.atan2(myp, mxp));
+		setAngle(Math.atan2(yPosition, xPosition));
 
-		setDistanceFromCenter(mxp, myp);
+		setDistanceFromCenter(xPosition, yPosition);
 
 		repaint();
 
@@ -63,47 +63,14 @@ public class RobotMoveJoystick extends Joystick {
 		// }
 	}
 
-	@Override
-	protected Point getSpotCenter() {
 
-		// Calculate the center point of the spot RELATIVE to the
-		// center of the of the circle.
-
-		int r = Math.max((distFromCenter), 0);
-
-		int ycp = (int) (r * Math.sin(getAngleRadians()));
-		int xcp = (int) (r * Math.cos(getAngleRadians()));
-
-		// Adjust the center point of the spot so that it is offset
-		// from the center of the circle. This is necessary becasue
-		// 0,0 is not actually the center of the circle, it is the
-		// upper left corner of the component!
-		int xc = getRadius() + xcp;// getRadius
-		int yc = getRadius() - ycp;
-
-		// Create a new Point to return since we can't
-		// return 2 values!
-		return new Point(xc, yc);
-	}
 
 	@Override
-	public void mouseReleased(MouseEvent e) {
-		super.mouseReleased(e);
+	public void mouseReleased(MouseEvent event) {
+		super.mouseReleased(event);
 		distFromCenter = 0;
 		speedChanged.set(true);
 		repaint();
-	}
-
-	private int getMaxRadius() {
-		return getRadius() - getSpotRadius();
-	}
-
-	private void setDistanceFromCenter(int x, int y) {
-		double distSquared = (x * x + y * y);
-		distFromCenter = (int) Math.sqrt(distSquared);
-		if (distFromCenter > getMaxRadius()) {
-			distFromCenter = getMaxRadius();
-		}
 	}
 
 	private void createAndSendMoveMessage() {
@@ -130,5 +97,41 @@ public class RobotMoveJoystick extends Joystick {
 
 		controller.sendMove((int) leftMotor, (int) rightMotor);
 
+	}
+
+	private int getMaxRadius() {
+		return getRadius() - getSpotRadius();
+	}
+
+	private void setDistanceFromCenter(int x, int y) {
+		double distSquared = (x * x + y * y);
+		distFromCenter = (int) Math.sqrt(distSquared);
+		if (distFromCenter > getMaxRadius()) {
+			distFromCenter = getMaxRadius();
+		}
+	}
+
+	
+	@Override
+	protected Point getSpotCenter() {
+
+		// Calculate the center point of the spot RELATIVE to the
+		// center of the of the circle.
+
+		int radius = Math.max((distFromCenter), 0);
+
+		int centerPointY = (int) (radius * Math.sin(getAngleRadians()));
+		int centerPointX = (int) (radius * Math.cos(getAngleRadians()));
+
+		// Adjust the center point of the spot so that it is offset
+		// from the center of the circle. This is necessary becasue
+		// 0,0 is not actually the center of the circle, it is the
+		// upper left corner of the component!
+		int centerX = getRadius() + centerPointX;// getRadius
+		int centerY = getRadius() - centerPointY;
+
+		// Create a new Point to return since we can't
+		// return 2 values!
+		return new Point(centerX, centerY);
 	}
 }

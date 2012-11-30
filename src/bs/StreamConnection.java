@@ -15,6 +15,8 @@ public abstract class StreamConnection extends Connection {
 	private OutputStream out;
 
 	private boolean connected = false;
+	
+	private Thread readerThread;
 
 	/**
 	 * A thread to continuously read and process messages from the input stream
@@ -24,7 +26,7 @@ public abstract class StreamConnection extends Connection {
 			// repeat until interrupted
 			while (!Thread.interrupted()) {
 				Message msg = null;
-				Log.v(this, "Waiting for message from stream");
+				Log.verbose(this, "Waiting for message from stream");
 				try {
 					msg = Message.deserialize(in);
 				} catch (NoSuchElementException e) {
@@ -38,7 +40,7 @@ public abstract class StreamConnection extends Connection {
 					// the next message from the input stream
 					disconnect();
 					e.printStackTrace();
-					Log.d(this, "Terminating reader thread");
+					Log.debug(this, "Terminating reader thread");
 					return;
 				}
 				// if we've successfully read a message
@@ -48,8 +50,6 @@ public abstract class StreamConnection extends Connection {
 			}
 		}
 	};
-
-	private Thread readerThread;
 
 	/**
 	 * Starts listening for messages on a separate thread
@@ -86,14 +86,14 @@ public abstract class StreamConnection extends Connection {
 				in.close();
 			}
 		} catch (IOException e) {
-			Log.e(this, "Error closing input stream: " + e.getMessage());
+			Log.error(this, "Error closing input stream: " + e.getMessage());
 		}
 		try {
 			if (out != null) {
 				out.close();
 			}
 		} catch (IOException e) {
-			Log.e(this, "Error closing output stream: " + e.getMessage());
+			Log.error(this, "Error closing output stream: " + e.getMessage());
 		}
 
 		connected = false;
@@ -107,9 +107,9 @@ public abstract class StreamConnection extends Connection {
 
 	@Override
 	public final synchronized boolean sendMessage(Message m) {
-		Log.v(this, "sendMessage(" + m + ")");
+		Log.verbose(this, "sendMessage(" + m + ")");
 		if (out == null) {
-			Log.e(this, "Unable to write message to null output stream");
+			Log.error(this, "Unable to write message to null output stream");
 			return false;
 		}
 
@@ -117,7 +117,7 @@ public abstract class StreamConnection extends Connection {
 			m.serialize(out);
 		} catch (IOException e) {
 			// if there was an error writing to the output stream, disconnect
-			Log.e(this, "Error writing message to stream.  Disconnecting!");
+			Log.error(this, "Error writing message to stream.  Disconnecting!");
 			disconnect();
 			return false;
 		}

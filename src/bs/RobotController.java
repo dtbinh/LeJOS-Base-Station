@@ -139,7 +139,7 @@ public class RobotController implements MessageReceiver,
 			}
 		}
 
-		Log.v(this, "sendMove(" + leftSpeed + ", " + rightSpeed + ")");
+		Log.verbose(this, "sendMove(" + leftSpeed + ", " + rightSpeed + ")");
 		Message moveMessage = new BSMotorSpeed(nextMessageId, leftSpeed,
 				rightSpeed);
 		sendMessage(moveMessage);
@@ -152,7 +152,7 @@ public class RobotController implements MessageReceiver,
 	 *            the angle to set the arm to
 	 */
 	public void sendSetArmAngle(int armAngle) {
-		Log.v(this, "setArmAngle(" + armAngle + ")");
+		Log.verbose(this, "setArmAngle(" + armAngle + ")");
 		Message armMessage = new BSArmAngle(nextMessageId, armAngle);
 		sendMessage(armMessage);
 	}
@@ -173,28 +173,12 @@ public class RobotController implements MessageReceiver,
 	 * @param safe
 	 *            true if turning on safe mode, false otherwise
 	 */
-	public void setSafeMode(boolean safe) {
-		Log.v(this, "setSafeMode(" + safe + ")");
+	public void sendSetSafeMode(boolean safe) {
+		Log.verbose(this, "setSafeMode(" + safe + ")");
 		Message safeMessage = new BSSafety(nextMessageId, safe);
 		sendMessage(safeMessage);
 	}
 
-	/**
-	 * Get the latest telemetry object received from the robot.
-	 * 
-	 * Note that this returns null if no telemetry has been received yet!
-	 * 
-	 * @return a Telemetry object representing the latest telemetry data
-	 *         received from the robot, or null if no telemetry has been
-	 *         received
-	 */
-	public Telemetry getLatestTelemetry() {
-		if (telemetry.size() > 0) {
-			return telemetry.get(telemetry.size() - 1);
-		} else {
-			return null;
-		}
-	}
 
 	@Override
 	public void receiveMessage(Message message) {
@@ -246,17 +230,34 @@ public class RobotController implements MessageReceiver,
 		robotStateListeners.add(listener);
 	}
 
+	@Override
+	public void connecting() {
+		// TODO Auto-generated method stub
+
+	}
+	
 	/**
 	 * @return The connection being used to communicate with the robot
 	 */
 	public Connection getConnection() {
 		return connection;
 	}
-
-	@Override
-	public void connecting() {
-		// TODO Auto-generated method stub
-
+	
+	/**
+	 * Get the latest telemetry object received from the robot.
+	 * 
+	 * Note that this returns null if no telemetry has been received yet!
+	 * 
+	 * @return a Telemetry object representing the latest telemetry data
+	 *         received from the robot, or null if no telemetry has been
+	 *         received
+	 */
+	public Telemetry getLatestTelemetry() {
+		if (telemetry.size() > 0) {
+			return telemetry.get(telemetry.size() - 1);
+		} else {
+			return null;
+		}
 	}
 
 }
