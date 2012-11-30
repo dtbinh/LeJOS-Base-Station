@@ -16,9 +16,9 @@ import bs.Connection;
 public class ConnectPanel extends JPanel {
 	private Connection connection;
 
-	private JTextField name;
-	private JTextField address;
-	private JButton connect;
+	private JTextField deviceName;
+	private JTextField deviceAddress;
+	private JButton connectButton;
 
 	/**
 	 * Creates a new ConnectPanel to allow connecting with the provided
@@ -32,21 +32,21 @@ public class ConnectPanel extends JPanel {
 
 		this.connection = connection;
 
-		this.name = new JTextField("device name");
-		this.address = new JTextField("device address");
-		this.connect = new JButton("Connect");
-		this.connect.addActionListener(new ActionListener() {
+		this.deviceName = new JTextField("device name");
+		this.deviceAddress = new JTextField("device address");
+		this.connectButton = new JButton("Connect");
+		this.connectButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				ConnectPanel.this.connection.connect(name.getText(),
-						address.getText());
+				ConnectPanel.this.connection.connect(deviceName.getText(),
+						deviceAddress.getText());
 			}
 		});
 		this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 
-		this.add(name);
-		this.add(address);
-		this.add(connect);
+		this.add(deviceName);
+		this.add(deviceAddress);
+		this.add(connectButton);
 	}
 
 }

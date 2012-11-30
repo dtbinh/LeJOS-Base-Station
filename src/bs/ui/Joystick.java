@@ -18,12 +18,14 @@ public class Joystick extends JComponent implements MouseListener,
 		MouseMotionListener {
 
 	/** The radius of the entire joystick */
-	private static final int radius = 50;
+	private static final int KNOB_RADIUS = 50;
 	/** The radius of the spot that represents the joystick position */
-	private static final int spotRadius = 10;
+	private static final int SPOT_RADIUS = 10;
+	/** The maximum angle in degrees */
+	private static final int MAX_ANGLE = 360;
 
 	/** The angle of the joystick in Radians */
-	private double theta;
+	private double angleTheta;
 	/** The color of the joystick */
 	private Color knobColor;
 	/** The color of the spot that represents the joystick position */
@@ -63,7 +65,7 @@ public class Joystick extends JComponent implements MouseListener,
 	 */
 	public Joystick(double initTheta, Color initKnobColor, Color initSpotColor) {
 
-		theta = initTheta;
+		angleTheta = initTheta;
 		pressedOnSpot = false;
 		knobColor = initKnobColor;
 		spotColor = initSpotColor;
@@ -80,11 +82,12 @@ public class Joystick extends JComponent implements MouseListener,
 	 * @param g
 	 *            The graphics context on which to paint the knob.
 	 */
+	@Override
 	public void paint(Graphics g) {
 
 		// Draw the knob.
 		g.setColor(knobColor);
-		g.fillOval(0, 0, 2 * radius, 2 * radius);
+		g.fillOval(0, 0, 2 * KNOB_RADIUS, 2 * KNOB_RADIUS);
 
 		// Find the center of the spot.
 		Point pt = getSpotCenter();
@@ -93,8 +96,8 @@ public class Joystick extends JComponent implements MouseListener,
 
 		// Draw the spot.
 		g.setColor(spotColor);
-		g.fillOval(xc - spotRadius, yc - spotRadius, 2 * spotRadius,
-				2 * spotRadius);
+		g.fillOval(xc - SPOT_RADIUS, yc - SPOT_RADIUS, 2 * SPOT_RADIUS,
+				2 * SPOT_RADIUS);
 	}
 
 	/**
@@ -103,7 +106,7 @@ public class Joystick extends JComponent implements MouseListener,
 	 * @return the preferred size of the JKnob.
 	 */
 	public Dimension getPreferredSize() {
-		return new Dimension(2 * radius, 2 * radius);
+		return new Dimension(2 * KNOB_RADIUS, 2 * KNOB_RADIUS);
 	}
 
 	/**
@@ -113,15 +116,15 @@ public class Joystick extends JComponent implements MouseListener,
 	 * @return the minimum size of the JKnob.
 	 */
 	public Dimension getMinimumSize() {
-		return new Dimension(2 * radius, 2 * radius);
+		return new Dimension(2 * KNOB_RADIUS, 2 * KNOB_RADIUS);
 	}
 	
 	public int getRadius(){
-		return radius;
+		return KNOB_RADIUS;
 	}
 	
 	public int getSpotRadius(){
-		return spotRadius;
+		return SPOT_RADIUS;
 	}
 
 	/**
@@ -130,17 +133,17 @@ public class Joystick extends JComponent implements MouseListener,
 	 * @return the current anglular position of the knob.
 	 */
 	public int getAngle() {
-		int angle = (int)Math.toDegrees(theta);
-		int positiveAngle = (angle + 360) % 360;
+		int angle = (int)Math.toDegrees(angleTheta);
+		int positiveAngle = (angle + MAX_ANGLE) % MAX_ANGLE;
 		return positiveAngle;
 	}
 	
 	public double getAngleRadians() {
-		return theta;
+		return angleTheta;
 	}
 
 	protected void setAngle(double angle) {
-		theta = angle;
+		angleTheta = angle;
 	}
 	
 	/**
@@ -152,17 +155,17 @@ public class Joystick extends JComponent implements MouseListener,
 
 		// Calculate the center point of the spot RELATIVE to the
 		// center of the of the circle.
-		int r = radius - spotRadius;
+		int r = KNOB_RADIUS - SPOT_RADIUS;
 
-		int xcp = (int) (r * Math.sin(theta));
-		int ycp = (int) (r * Math.cos(theta));
+		int xcp = (int) (r * Math.sin(angleTheta));
+		int ycp = (int) (r * Math.cos(angleTheta));
 
 		// Adjust the center point of the spot so that it is offset
 		// from the center of the circle. This is necessary becasue
 		// 0,0 is not actually the center of the circle, it is the
 		// upper left corner of the component!
-		int xc = radius + xcp;
-		int yc = radius - ycp;
+		int xc = KNOB_RADIUS + xcp;
+		int yc = KNOB_RADIUS - ycp;
 
 		// Create a new Point to return since we can't
 		// return 2 values!
@@ -176,7 +179,7 @@ public class Joystick extends JComponent implements MouseListener,
 	 * @return true if x,y is on the spot and false if not.
 	 */
 	public boolean isOnSpot(Point pt) {
-		return (pt.distance(getSpotCenter()) < spotRadius);
+		return (pt.distance(getSpotCenter()) < SPOT_RADIUS);
 	}
 
 	public boolean isPressedOnSpot() {
@@ -262,15 +265,15 @@ public class Joystick extends JComponent implements MouseListener,
 
 			// Compute the x, y position of the mouse RELATIVE
 			// to the center of the knob.
-			int mxp = mx - radius;
-			int myp = radius - my;
+			int mxp = mx - KNOB_RADIUS;
+			int myp = KNOB_RADIUS - my;
 
 			// Compute the new angle of the knob from the
 			// new x and y position of the mouse.
 			// Math.atan2(...) computes the angle at which
 			// x,y lies from the positive y axis with cw rotations
 			// being positive and ccw being negative.
-			theta = Math.atan2(mxp, myp);
+			angleTheta = Math.atan2(mxp, myp);
 
 			repaint();
 		}

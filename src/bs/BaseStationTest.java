@@ -21,15 +21,15 @@ public class BaseStationTest {
 			PipedOutputStream OBStoBS = new PipedOutputStream();
 			PipedInputStream BSfromOBS = new PipedInputStream(OBStoBS);
 
-			SimulatorConnection bs = new SimulatorConnection(BSfromOBS, BStoOBS);
+			SimulatorConnection baseStation = new SimulatorConnection(BSfromOBS, BStoOBS);
 
-			SimulatorConnection obs = new SimulatorConnection(OBSfromBS,
+			SimulatorConnection onBoardSystem = new SimulatorConnection(OBSfromBS,
 					OBStoBS);
 
-			TestTool testTool = new TestTool(obs);
+			TestTool testTool = new TestTool(onBoardSystem);
 			testTool.init(true);
 
-			RobotController robotController = new RobotController(bs);
+			RobotController robotController = new RobotController(baseStation);
 			BaseStationGui gui = new BaseStationGui(robotController);
 			gui.generateBaseStationGUI();
 		} catch (Exception e) {

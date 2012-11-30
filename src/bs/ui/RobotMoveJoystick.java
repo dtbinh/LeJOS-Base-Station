@@ -18,6 +18,7 @@ public class RobotMoveJoystick extends Joystick {
 	public RobotMoveJoystick(RobotController controller) {
 		super();
 		this.controller = controller;
+		this.distFromCenter = 0;
 		// HACK to periodically send update messages
 		new Thread() {
 			public void run() {

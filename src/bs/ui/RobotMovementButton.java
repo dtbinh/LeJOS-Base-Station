@@ -17,19 +17,19 @@ public class RobotMovementButton extends JButton {
 	private int speedRight = RobotController.MOTOR_SPEED_STOP;
 
 	/**
-	 * @param s
+	 * @param leftSpeed
 	 *            The speed to set to the left motor when moving the robot
 	 */
-	public void setSpeedLeft(int s) {
-		speedLeft = s;
+	public void setSpeedLeft(int leftSpeed) {
+		speedLeft = leftSpeed;
 	}
 
 	/**
-	 * @param s
+	 * @param rightSpeed
 	 *            The speed to set to the right motor when moving the robot
 	 */
-	public void setSpeedRight(int s) {
-		speedRight = s;
+	public void setSpeedRight(int rightSpeed) {
+		speedRight = rightSpeed;
 	}
 
 	/**

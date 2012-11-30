@@ -15,7 +15,7 @@ public class Log {
 	/**Debug log message type**/
 	private static String DEBUG = "Debug";
 	
-	private static final DateFormat dateFormat = new SimpleDateFormat(
+	private static final DateFormat DATE_FORMAT = new SimpleDateFormat(
 			"yyyy/MM/dd HH:mm:ss");
 
 	/**
@@ -25,7 +25,7 @@ public class Log {
 	 * @param msg
 	 */
 	private static synchronized void writeLog(String type, Object o, String msg) {
-		String time = dateFormat.format(new Date());
+		String time = DATE_FORMAT.format(new Date());
 		System.out.println(String.format("%s %s: %s: %s", time, type, o
 				.getClass().getName(), msg));
 	}

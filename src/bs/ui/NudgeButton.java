@@ -11,8 +11,8 @@ import bs.RobotController;
 public class NudgeButton extends JButton {
 
 	private RobotController controller;
-	private final int speed = RobotController.MOTOR_SPEED_MAX_FWD;
-	private final int stop = 0;
+	private static final int SPEED = RobotController.MOTOR_SPEED_MAX_FWD;
+	private static final int STOP_SPEED = 0;
 
 	public NudgeButton(final RobotController controller) {
 		this.addActionListener(new ActionListener() {
@@ -21,12 +21,12 @@ public class NudgeButton extends JButton {
 				Log.verbose(this, "nudge");
 				new Thread() {
 					public void run() {
-						controller.sendMove(speed, speed);
+						controller.sendMove(SPEED, SPEED);
 						try {
 							Thread.sleep(100);
 						} catch (InterruptedException e) {
 						}
-						controller.sendMove(stop, stop);
+						controller.sendMove(STOP_SPEED, STOP_SPEED);
 					}
 				}.start();
 			}

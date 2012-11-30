@@ -15,7 +15,7 @@ import bs.RobotController;
  * A JPanel enabling the user to disconnect a RobotController's connection
  */
 public class DisconnectPanel extends JPanel {
-	private JButton disconnect;
+	private JButton disconnectButton;
 	private Connection connection;
 
 	/**
@@ -29,13 +29,13 @@ public class DisconnectPanel extends JPanel {
 	 */
 	public DisconnectPanel(Connection connection) {
 		this.connection = connection;
-		disconnect = new JButton("Disconnect");
-		disconnect.addActionListener(new ActionListener() {
+		disconnectButton = new JButton("Disconnect");
+		disconnectButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				DisconnectPanel.this.connection.disconnect();
 			}
 		});
-		this.add(disconnect);
+		this.add(disconnectButton);
 	}
 }
