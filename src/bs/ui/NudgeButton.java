@@ -25,6 +25,7 @@ public class NudgeButton extends JButton {
 						try {
 							Thread.sleep(100);
 						} catch (InterruptedException e) {
+							e.printStackTrace();
 						}
 						controller.sendMove(STOP_SPEED, STOP_SPEED);
 					}

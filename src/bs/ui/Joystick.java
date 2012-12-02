@@ -23,6 +23,8 @@ public class Joystick extends JComponent implements MouseListener,
 	private static final int SPOT_RADIUS = 10;
 	/** The maximum angle in degrees */
 	private static final int MAX_ANGLE = 360;
+	/** The default initial angle in radians */
+	private static final int DEFAULT_INITIAL_ANGLE = 0;
 
 	/** The angle of the joystick in Radians */
 	private double angleTheta;
@@ -38,7 +40,7 @@ public class Joystick extends JComponent implements MouseListener,
 	 * (Up).
 	 */
 	public Joystick() {
-		this(0);
+		this(DEFAULT_INITIAL_ANGLE);
 	}
 
 	/**

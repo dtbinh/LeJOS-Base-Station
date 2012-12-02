@@ -44,6 +44,11 @@ public class RobotController implements MessageReceiver,
 	 * The maximum reverse motor speed
 	 */
 	public static final int ARM_MAX_ANGLE = 360;
+	
+	/**
+	 * The initial message id
+	 */
+	public static final int INIT_MESSAGE_ID = 0;
 
 	/**
 	 * A list of recent telemetry data received from the robot. They are ordered
@@ -105,7 +110,7 @@ public class RobotController implements MessageReceiver,
 		connection.addConnectionStateListener(this);
 		connection.addMessageReceiver(this);
 
-		nextMessageId = 0;
+		nextMessageId = INIT_MESSAGE_ID;
 		heartbeatTask = new TimerTask() {
 			@Override
 			public void run() {

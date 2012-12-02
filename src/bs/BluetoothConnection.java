@@ -44,7 +44,7 @@ public class BluetoothConnection extends StreamConnection {
 
 	public void searchConnections(NXTComm nxtComm) {
 		try {
-			NXTInfo[] found = nxtComm.search(null, 0);
+			NXTInfo[] found = nxtComm.search(null);
 			for (int i = 0; i < found.length; i++) {
 				Log.debug(this, "Found device: " + found[i].toString() + " - "
 						+ found[i].deviceAddress);

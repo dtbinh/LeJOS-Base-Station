@@ -64,8 +64,6 @@ public class RobotMoveJoystick extends Joystick {
 		// }
 	}
 
-
-
 	@Override
 	public void mouseReleased(MouseEvent event) {
 		super.mouseReleased(event);
@@ -75,29 +73,35 @@ public class RobotMoveJoystick extends Joystick {
 	}
 
 	private void createAndSendMoveMessage() {
+		// Compute the proportion of the maximum speed to transmit
 		double speedProportion = (double) distFromCenter
 				/ (double) getMaxRadius();
+		
+		// Compute the x and y coordinates of the mouse relative to the center
 		double posX = speedProportion * Math.cos(getAngleRadians());
 		double posY = speedProportion * Math.sin(getAngleRadians());
 
+		// reverse the x axis
 		posX = posX * -1;
 
-		double rPlusL = (1.0 - Math.abs(posX))
-				* (posY / 1.0) + posY;
-		double rMinusL = (1.0 - Math.abs(posY))
-				* (posX / 1.0) + posX;
+		// compute the sum of the left, and right
+		double rPlusL = (1.0 - Math.abs(posX)) * (posY / 1.0) + posY;
+		double rMinusL = (1.0 - Math.abs(posY)) * (posX / 1.0) + posX;
 
+		// the speed of the left and right motors
 		double rightMotor = (rPlusL + rMinusL) / 2;
 		double leftMotor = (rPlusL - rMinusL) / 2;
-		
+
+		// scale the proportion of speed to get the total speed
 		double totalSpeed = RobotController.MOTOR_SPEED_MAX_FWD
 				* speedProportion;
 
+		// scale the left and right motor speeds
 		rightMotor *= totalSpeed;
 		leftMotor *= totalSpeed;
 
+		// send the move command
 		controller.sendMove((int) leftMotor, (int) rightMotor);
-
 	}
 
 	private int getMaxRadius() {
@@ -112,7 +116,6 @@ public class RobotMoveJoystick extends Joystick {
 		}
 	}
 
-	
 	@Override
 	protected Point getSpotCenter() {
 

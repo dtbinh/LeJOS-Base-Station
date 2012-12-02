@@ -40,6 +40,16 @@ public class BaseStationGui {
 	public BaseStationGui(RobotController controller) {
 		robotController = controller;
 	}
+	
+	private JPanel createControlPanel() {
+		JPanel controlPanel = new JPanel();
+		controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.X_AXIS));
+		controlPanel.add(movementPanel);
+		controlPanel.add(armPanel);
+		controlPanel.add(nudgePanel);
+		controlPanel.add(modePanel);
+		return controlPanel;
+	}
 
 	/**
 	 * Initializes and displays the GUI
@@ -54,15 +64,12 @@ public class BaseStationGui {
 		armPanel = new RobotArmPanel(robotController);
 		nudgePanel = new NudgePanel(robotController);
 		modePanel = new RobotModePanel(robotController);
+		
 		window.setLayout(new BorderLayout());
 		window.add(connectionPanel, BorderLayout.NORTH);
 		window.add(telemetryPanel, BorderLayout.CENTER);
-		JPanel controlPanel = new JPanel();
-		controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.X_AXIS));
-		controlPanel.add(movementPanel);
-		controlPanel.add(armPanel);
-		controlPanel.add(nudgePanel);
-		controlPanel.add(modePanel);
+		
+		JPanel controlPanel = createControlPanel();
 		window.add(controlPanel, BorderLayout.SOUTH);
 
 		window.setSize(500, 500);
