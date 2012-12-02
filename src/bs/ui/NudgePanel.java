@@ -13,7 +13,7 @@ public class NudgePanel extends JPanel {
 
 	public NudgePanel(RobotController robotController) {
 		this.controller = robotController;
-		setLayout(new GridLayout(3, 2));
+		setLayout(new GridLayout(2, 3));
 		add(new JLabel());
 		add(new NudgeButton(controller, RobotController.MOTOR_SPEED_MAX_FWD,
 				RobotController.MOTOR_SPEED_MAX_FWD));

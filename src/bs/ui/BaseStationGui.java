@@ -1,6 +1,7 @@
 package bs.ui;
 
 import java.awt.BorderLayout;
+import java.awt.KeyboardFocusManager;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -20,15 +21,15 @@ public class BaseStationGui {
 	private JFrame window;
 
 	private RobotMovementPanel movementPanel;
-	
+
 	private NudgePanel nudgePanel;
 
 	private TelemetryDisplayPanel telemetryPanel;
 
 	private ConnectionManagerPanel connectionPanel;
-	
+
 	private RobotArmPanel armPanel;
-	
+
 	private RobotModePanel modePanel;
 
 	/**
@@ -40,7 +41,7 @@ public class BaseStationGui {
 	public BaseStationGui(RobotController controller) {
 		robotController = controller;
 	}
-	
+
 	private JPanel createControlPanel() {
 		JPanel controlPanel = new JPanel();
 		controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.X_AXIS));
@@ -64,13 +65,18 @@ public class BaseStationGui {
 		armPanel = new RobotArmPanel(robotController);
 		nudgePanel = new NudgePanel(robotController);
 		modePanel = new RobotModePanel(robotController);
-		
+
 		window.setLayout(new BorderLayout());
 		window.add(connectionPanel, BorderLayout.NORTH);
 		window.add(telemetryPanel, BorderLayout.CENTER);
-		
+
 		JPanel controlPanel = createControlPanel();
 		window.add(controlPanel, BorderLayout.SOUTH);
+
+		KeyboardFocusManager manager = KeyboardFocusManager
+				.getCurrentKeyboardFocusManager();
+		manager.addKeyEventDispatcher(new RobotMovementKeyDispatcher(
+				robotController));
 
 		window.setSize(500, 500);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
